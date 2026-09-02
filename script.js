@@ -35,7 +35,7 @@ const WEDDING_CONFIG = {
   dateShort:     '12.11.2026',
 
   /* --- Acara --- */
-  eventTime: '16.00–19.00 WIB',
+  eventTime: '16.00–21.00 WIB',
 
   /* Waktu mesin — dipakai countdown & file kalender.
      Format ISO 8601 dengan zona waktu. WIB = +07:00 */
