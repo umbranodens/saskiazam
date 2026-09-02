@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Butterfly sections probe</title>
+<iframe id="subject" src="/index.html?butterfly-sections-probe=1" style="position:fixed;inset:0;width:390px;height:844px;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+
+    const sectionIds = ['hero', 'mempelai', 'rsvp', 'penutup'];
+    const sections = Object.fromEntries(sectionIds.map(id => {
+      const section = doc.querySelector(`#${id}`);
+      const butterflies = [...section.querySelectorAll('.bfly img')];
+      const fields = [...section.querySelectorAll('.bfly-field')];
+
+      return [id, {
+        count: butterflies.length,
+        sources: butterflies.map(img => img.getAttribute('src')),
+        loaded: butterflies.map(img => Boolean(img.complete && img.naturalWidth && img.naturalHeight)),
+        animations: butterflies.map(img => frame.contentWindow.getComputedStyle(img.closest('.bfly')).animationName),
+        pointerEvents: fields.map(field => frame.contentWindow.getComputedStyle(field).pointerEvents),
+      }];
+    }));
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      sections,
+      legacyHeroButterflies: doc.querySelectorAll('#hero .bfly use[href="#s-bfly"]').length,
+    });
+  });
+</script>
+</html>

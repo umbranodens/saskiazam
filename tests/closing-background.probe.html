@@ -51,7 +51,7 @@
       divider: rect(divider),
       dividerSrc: divider?.getAttribute('src') || null,
       dividerZIndex: divider ? Number(frame.contentWindow.getComputedStyle(divider).zIndex) : null,
-      oldOrnamentCount: closing.querySelectorAll('.layer--pattern, .scene__arch, .scene__key, .scene__leaf, .closing__vine, .bfly-field, .ornament').length,
+      oldOrnamentCount: closing.querySelectorAll('.layer--pattern, .scene__arch, .scene__key, .scene__leaf, .closing__vine, .ornament').length,
       hasClosingSalam: Boolean(closing.querySelector('.closing__salam')),
     });
   });

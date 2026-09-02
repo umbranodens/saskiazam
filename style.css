@@ -1083,15 +1083,37 @@ img, svg { display: block; max-width: 100%; }
 
 .bfly-field { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .bfly { position: absolute; display: block; opacity: 0; }
-.bfly svg { width: 100%; height: 100%; }
+.bfly img { width: 100%; height: 100%; object-fit: contain; }
 
 /* Kupu-kupu hero.
    Kolom teks di HP hanya menyisakan ~35px di tiap tepi, jadi posisi
    dan amplitudo geraknya dipilih agar lintasannya selalu berada di
    BAWAH atau DI ATAS blok teks, bukan menyeberanginya. */
-.bfly--1 { left: 4%;  top: 21%;    width: 26px; height: 21px; animation: drift1 14s ease-in-out infinite 1s; }
-.bfly--2 { right: 4%; top: 28%;    width: 20px; height: 16px; animation: drift2 18s ease-in-out infinite 3.5s; }
-.bfly--3 { right: 10%; bottom: 11%; width: 16px; height: 13px; animation: drift3 16s ease-in-out infinite 6s; }
+.bfly--1 { left: 4%;  top: 21%;    width: 40px; height: 40px; animation: drift1 14s ease-in-out infinite -2s; }
+.bfly--2 { right: 4%; top: 28%;    width: 32px; height: 32px; animation: drift2 18s ease-in-out infinite -7s; }
+.bfly--3 { right: 10%; bottom: 11%; width: 26px; height: 26px; animation: drift3 16s ease-in-out infinite -10s; }
+
+/* Section genap bila cover dihitung sebagai layar pertama:
+   hero, mempelai, RSVP, dan penutup. Setiap jalur dijaga di tepi agar
+   kupu-kupu tidak melintasi nama, frame acara, atau kontrol formulir. */
+#mempelai > :not(.bfly-field),
+#rsvp > :not(.bfly-field) { position: relative; z-index: 3; }
+
+.bfly-field--mempelai,
+.bfly-field--rsvp { z-index: 1; }
+.bfly-field--closing { z-index: 1; }
+
+.bfly--m1 { left: -0.3rem; top: 13%; width: 34px; height: 34px; animation: drift1 17s ease-in-out infinite -3s; }
+.bfly--m2 { right: .1rem; top: 47%; width: 27px; height: 27px; animation: drift2 20s ease-in-out infinite -9s; }
+.bfly--m3 { left: 7%; bottom: 8%; width: 21px; height: 21px; animation: drift3 15s ease-in-out infinite -12s; }
+
+.bfly--r1 { right: -.2rem; top: 9%; width: 31px; height: 31px; animation: drift2 18s ease-in-out infinite -4s; }
+.bfly--r2 { left: -.25rem; top: 52%; width: 24px; height: 24px; animation: drift1 21s ease-in-out infinite -11s; }
+.bfly--r3 { right: 8%; bottom: 7%; width: 19px; height: 19px; animation: drift3 16s ease-in-out infinite -13s; }
+
+.bfly--c1 { left: 3%; top: 18%; width: 31px; height: 31px; animation: drift1 19s ease-in-out infinite -5s; }
+.bfly--c2 { right: 4%; top: 46%; width: 25px; height: 25px; animation: drift2 22s ease-in-out infinite -12s; }
+.bfly--c3 { left: 12%; bottom: 18%; width: 20px; height: 20px; animation: drift3 17s ease-in-out infinite -14s; }
 
 @keyframes drift1 {
   0%   { opacity: 0; transform: translate(0, 0) rotate(0deg) }
