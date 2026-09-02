@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Closing background mobile probe</title>
+<iframe id="subject" src="/index.html?closing-background-probe=1" style="position:fixed;inset:0;width:375px;height:844px;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+    const closing = doc.querySelector('#penutup');
+    const wishes = doc.querySelector('#ucapan');
+    const art = closing.querySelector('.closing__art');
+    const content = closing.querySelector('.closing__in');
+    const footer = doc.querySelector('.foot');
+    const divider = wishes.querySelector('.ucapan-closing-divider');
+    const stylesheet = doc.querySelector('link[rel="stylesheet"][href^="style.css"]');
+    const localScripts = [...doc.querySelectorAll('script[src]')]
+      .map(script => script.getAttribute('src'))
+      .filter(src => src === 'form-data.js' || src === 'script.js' || src?.startsWith('form-data.js?') || src?.startsWith('script.js?'));
+    const rect = element => {
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height };
+    };
+
+    for (const reveal of closing.querySelectorAll('.reveal')) {
+      reveal.style.transition = 'none';
+      reveal.classList.add('is-in');
+    }
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      viewportWidth: frame.contentWindow.innerWidth,
+      section: rect(closing),
+      wishes: rect(wishes),
+      art: rect(art),
+      artSrc: art?.getAttribute('src') || null,
+      artLoaded: Boolean(art?.complete && art?.naturalWidth && art?.naturalHeight),
+      artFit: art ? frame.contentWindow.getComputedStyle(art).objectFit : null,
+      artZIndex: art ? Number(frame.contentWindow.getComputedStyle(art).zIndex) : null,
+      content: rect(content),
+      contentZIndex: Number(frame.contentWindow.getComputedStyle(content).zIndex),
+      footer: rect(footer),
+      footerVisible: Boolean(footer && frame.contentWindow.getComputedStyle(footer).display !== 'none' && footer.getBoundingClientRect().height > 0),
+      footerInsideClosing: Boolean(footer && closing.contains(footer)),
+      footerZIndex: footer ? Number(frame.contentWindow.getComputedStyle(footer).zIndex) : null,
+      stylesheetHref: stylesheet?.getAttribute('href') || null,
+      localScriptSrcs: localScripts,
+      divider: rect(divider),
+      dividerSrc: divider?.getAttribute('src') || null,
+      dividerZIndex: divider ? Number(frame.contentWindow.getComputedStyle(divider).zIndex) : null,
+      oldOrnamentCount: closing.querySelectorAll('.layer--pattern, .scene__arch, .scene__key, .scene__leaf, .closing__vine, .bfly-field, .ornament').length,
+      hasClosingSalam: Boolean(closing.querySelector('.closing__salam')),
+    });
+  });
+</script>
+</html>

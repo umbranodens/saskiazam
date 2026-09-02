@@ -12,12 +12,15 @@
      kalau JavaScript gagal jalan. Sumber kebenaran = WEDDING_CONFIG.
      ============================================================ -->
 
-<title>Muhammad Azamy &amp; Saskiah Putri — Undangan Pernikahan</title>
+<title>Ayi &amp; Saski Wedding's Invitation</title>
+
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Amiri:wght@400;700&display=swap">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260902-2">
 
 <!-- Tanpa JavaScript: cover disembunyikan dan halaman tetap bisa dibaca
      seluruhnya. Undangan tidak pernah terkunci. -->
@@ -146,55 +149,28 @@
 
 
 <!-- ============================================================
-     00 · COVER — gerbang yang membelah saat "Buka Undangan" ditekan
+     00 · COVER — gerbang taman yang membuka menuju undangan
      ============================================================ -->
 <div id="cover" class="cover">
 
-  <!-- Kedua daun gerbang memuat pemandangan yang IDENTIK dan selebar
-       layar penuh. Masing-masing dipotong 50% oleh induknya, sehingga
-       tersambung mulus sampai saat terbelah. -->
-  <div class="gate gate--l" aria-hidden="true"><div class="gate__in">
-    <div class="scene">
-      <span class="scene__pattern"></span>
-      <svg class="scene__arch" viewBox="0 0 300 520" preserveAspectRatio="none">
-        <path class="arch-outer" d="M10 518 L10 196 C10 100 72 28 150 14 C228 28 290 100 290 196 L290 518"/>
-        <path class="arch-inner" d="M24 518 L24 203 C24 114 82 47 150 33 C218 47 276 114 276 203 L276 518"/>
-      </svg>
-      <svg class="scene__key" viewBox="0 0 32 32"><path class="arch-key" d="M16 5 l7 11 -7 11 -7-11z"/></svg>
-      <svg class="scene__leaf scene__leaf--l" viewBox="0 0 170 130"><use href="#s-cluster" width="170" height="130"/></svg>
-      <svg class="scene__leaf scene__leaf--r" viewBox="0 0 170 130"><use href="#s-cluster" width="170" height="130" transform="translate(170,0) scale(-1,1)"/></svg>
-      <span class="scene__bfly scene__bfly--a"><svg viewBox="0 0 40 32" fill="var(--gold)"><use href="#s-bfly"/></svg></span>
-      <span class="scene__bfly scene__bfly--b"><svg viewBox="0 0 40 32" fill="var(--sage)"><use href="#s-bfly"/></svg></span>
-    </div>
-  </div></div>
-
-  <div class="gate gate--r" aria-hidden="true"><div class="gate__in">
-    <div class="scene">
-      <span class="scene__pattern"></span>
-      <svg class="scene__arch" viewBox="0 0 300 520" preserveAspectRatio="none">
-        <path class="arch-outer" d="M10 518 L10 196 C10 100 72 28 150 14 C228 28 290 100 290 196 L290 518"/>
-        <path class="arch-inner" d="M24 518 L24 203 C24 114 82 47 150 33 C218 47 276 114 276 203 L276 518"/>
-      </svg>
-      <svg class="scene__key" viewBox="0 0 32 32"><path class="arch-key" d="M16 5 l7 11 -7 11 -7-11z"/></svg>
-      <svg class="scene__leaf scene__leaf--l" viewBox="0 0 170 130"><use href="#s-cluster" width="170" height="130"/></svg>
-      <svg class="scene__leaf scene__leaf--r" viewBox="0 0 170 130"><use href="#s-cluster" width="170" height="130" transform="translate(170,0) scale(-1,1)"/></svg>
-      <span class="scene__bfly scene__bfly--a"><svg viewBox="0 0 40 32" fill="var(--gold)"><use href="#s-bfly"/></svg></span>
-      <span class="scene__bfly scene__bfly--b"><svg viewBox="0 0 40 32" fill="var(--sage)"><use href="#s-bfly"/></svg></span>
-    </div>
-  </div></div>
+  <!-- Satu foto utuh dicrop oleh dua panel. Saat panel bergeser, garis
+       tengah pada pintu asli tetap menjadi poros bukaan yang natural. -->
+  <div class="gate gate--l" aria-hidden="true">
+    <img class="gate__art" src="assets/img/gate.png" alt="" fetchpriority="high">
+  </div>
+  <div class="gate gate--r" aria-hidden="true">
+    <img class="gate__art" src="assets/img/gate.png" alt="" fetchpriority="high">
+  </div>
 
   <span class="gate__seam" aria-hidden="true"></span>
 
   <div class="cover__text">
     <p class="eyebrow">Kepada Yth.</p>
-    <p class="cover__hon">Bapak/Ibu/Saudara/i</p>
-    <h1 class="cover__guest" id="guestName">Bapak/Ibu/Saudara/i</h1>
-    <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
-    <p class="cover__date"><span data-wc="dateLong">Kamis, 12 November 2026</span></p>
+    <h1 class="cover__guest" id="guestName">Armia &amp; Istri</h1>
     <button type="button" class="btn btn--primary cover__btn" id="openBtn">
       Buka Undangan
     </button>
-    <p class="cover__hint">Mohon nyalakan suara untuk pengalaman terbaik</p>
+    <!-- <p class="cover__hint">Mohon nyalakan suara untuk pengalaman terbaik</p> -->
   </div>
 </div>
 
@@ -211,16 +187,10 @@
 
   <!-- ---------- 01 · HERO ---------- -->
   <section id="hero" class="sec sec--hero" tabindex="-1" aria-labelledby="heroNames">
-    <span class="layer layer--pattern" data-parallax="0.1" aria-hidden="true"></span>
+    <img class="hero__art" src="assets/img/arc.png" alt="" fetchpriority="high">
+    <span class="hero__veil" aria-hidden="true"></span>
 
-    <svg class="scene__arch scene__arch--ghost" viewBox="0 0 300 520" preserveAspectRatio="none" aria-hidden="true">
-      <path class="arch-ghost" d="M10 518 L10 196 C10 100 72 28 150 14 C228 28 290 100 290 196 L290 518"/>
-    </svg>
-
-    <svg class="scene__leaf scene__leaf--l" data-parallax="0.24" viewBox="0 0 170 130" aria-hidden="true"><use href="#s-cluster" width="170" height="130" opacity=".9"/></svg>
-    <svg class="scene__leaf scene__leaf--r" data-parallax="0.18" viewBox="0 0 170 130" aria-hidden="true"><use href="#s-cluster" width="170" height="130" opacity=".9" transform="translate(170,0) scale(-1,1)"/></svg>
-
-    <div class="bfly-field" aria-hidden="true">
+    <div class="bfly-field" data-parallax="0.1" aria-hidden="true">
       <span class="bfly bfly--1"><svg viewBox="0 0 40 32" fill="var(--gold)"><use href="#s-bfly"/></svg></span>
       <span class="bfly bfly--2"><svg viewBox="0 0 40 32" fill="var(--sage)"><use href="#s-bfly"/></svg></span>
       <span class="bfly bfly--3"><svg viewBox="0 0 40 32" fill="var(--green-mid)"><use href="#s-bfly"/></svg></span>
@@ -229,121 +199,20 @@
     <div class="wrap hero__in">
       <p class="eyebrow reveal">The Wedding Of</p>
       <h2 class="names reveal" id="heroNames">
-        <span class="names__n" data-wc="groom">Muhammad Azamy</span>
+        <span class="names__n" data-wc="groom">Azam</span>
         <span class="names__amp" aria-hidden="true">&amp;</span>
-        <span class="names__n" data-wc="bride">Saskiah Putri</span>
+        <span class="names__n" data-wc="bride">Saski</span>
       </h2>
       <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
-      <p class="lead reveal">Dengan memohon rahmat dan ridho Allah SWT</p>
+      <!-- <p class="lead reveal">Dengan memohon rahmat dan ridho Allah SWT</p> -->
       <p class="hero__date reveal" data-wc="dateLongUpper">KAMIS, 12 NOVEMBER 2026</p>
       <span class="scroll-cue reveal" aria-hidden="true"><svg><use href="#i-down"/></svg></span>
     </div>
   </section>
 
 
-  <!-- ---------- 02 · AYAT / DOA ---------- -->
-  <section id="ayat" class="sec sec--ivory sec--pattern" aria-labelledby="ayatLbl">
-    <div class="wrap wrap--narrow center">
-      <h2 class="sr-only" id="ayatLbl">Ayat pilihan</h2>
-      <!-- GANTI: ayat / doa pilihan Anda -->
-      <p class="arabic reveal" lang="ar" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
-      <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
-      <p class="verse reveal">&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang.&rdquo;</p>
-      <p class="source reveal">QS. Ar-Rum : 21</p>
-    </div>
-  </section>
-
-
-  <!-- ---------- 03 · MEMPELAI ---------- -->
-  <section id="mempelai" class="sec" aria-labelledby="mempelaiLbl">
-    <div class="wrap center">
-      <p class="eyebrow reveal">Bismillahirrahmanirrahim</p>
-      <h2 class="sec__title reveal" id="mempelaiLbl">Mempelai</h2>
-      <p class="lead lead--tight reveal">Assalamu&rsquo;alaikum warahmatullahi wabarakatuh.<br>Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.</p>
-    </div>
-
-    <div class="wrap couple">
-      <article class="person reveal">
-        <svg class="person__arch" viewBox="0 0 220 300" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M10 296 L10 132 C10 76 52 34 110 26 C168 34 210 76 210 132 L210 296"/>
-        </svg>
-        <div class="person__in">
-          <p class="person__role">Putra</p>
-          <h3 class="person__name" data-wc="groom">Muhammad Azamy</h3>
-          <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
-          <p class="person__parents">Putra dari<br>Bapak <b data-wc="groomFather">Fahrur Roezi</b><br>dan Ibu <b data-wc="groomMother">Mirza Syahnaz</b></p>
-        </div>
-      </article>
-
-      <div class="couple__amp reveal" aria-hidden="true">&amp;</div>
-
-      <article class="person person--alt reveal">
-        <svg class="person__arch" viewBox="0 0 220 300" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M10 296 L10 132 C10 76 52 34 110 26 C168 34 210 76 210 132 L210 296"/>
-        </svg>
-        <div class="person__in">
-          <p class="person__role">Putri</p>
-          <h3 class="person__name" data-wc="bride">Saskiah Putri</h3>
-          <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
-          <p class="person__parents">Putri dari<br>Bapak <b data-wc="brideFather">Alm. Sukardi</b><br>dan Ibu <b data-wc="brideMother">Zakiah</b></p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-
-  <!-- ---------- 04 · UNDANGAN ---------- -->
-  <section id="undangan" class="sec sec--invite" aria-labelledby="undanganLbl">
-    <svg class="invite__border" data-parallax="0.22" viewBox="0 0 360 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <use href="#s-cluster" x="-20" y="70" width="150" height="150" opacity=".55"/>
-      <use href="#s-cluster" x="-20" y="70" width="150" height="150" opacity=".55" transform="translate(360,0) scale(-1,1)"/>
-      <use href="#s-cluster" x="86" y="118" width="104" height="104" opacity=".35"/>
-      <use href="#s-cluster" x="86" y="118" width="104" height="104" opacity=".35" transform="translate(360,0) scale(-1,1)"/>
-    </svg>
-    <div class="wrap wrap--narrow center invite__in">
-      <h2 class="sec__title reveal" id="undanganLbl">Undangan</h2>
-      <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
-      <p class="lead reveal">Dengan segala kerendahan hati, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami.</p>
-    </div>
-  </section>
-
-
-  <!-- ---------- 05 · ACARA (hijau) ---------- -->
-  <section id="acara" class="sec sec--green" aria-labelledby="acaraLbl">
-    <div class="wrap center">
-      <p class="eyebrow eyebrow--on-green reveal">Save The Date</p>
-      <h2 class="sec__title sec__title--on-green reveal" id="acaraLbl">Akad &amp; Resepsi</h2>
-    </div>
-
-    <div class="wrap events">
-      <!-- GANTI: detail acara di WEDDING_CONFIG.events -->
-      <article class="ev reveal" data-stagger="0">
-        <p class="ev__kicker">Acara Pertama</p>
-        <h3 class="ev__name">Akad Nikah</h3>
-        <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
-        <dl class="ev__rows">
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-cal"/></svg><span class="sr-only">Tanggal</span></dt><dd data-wc="dateLong">Kamis, 12 November 2026</dd></div>
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-clock"/></svg><span class="sr-only">Waktu</span></dt><dd data-wc="akadTime">09.00 WIB</dd></div>
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-pin"/></svg><span class="sr-only">Lokasi</span></dt><dd><b data-wc="venueName">Leviticus 11</b><br><span data-wc="venueAddress">Jl. Penyelesaian Tomang II No.1, Meruya Utara, Kec. Kembangan, Jakarta Barat</span></dd></div>
-        </dl>
-      </article>
-
-      <article class="ev reveal" data-stagger="1">
-        <p class="ev__kicker">Acara Kedua</p>
-        <h3 class="ev__name">Resepsi</h3>
-        <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
-        <dl class="ev__rows">
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-cal"/></svg><span class="sr-only">Tanggal</span></dt><dd data-wc="dateLong">Kamis, 12 November 2026</dd></div>
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-clock"/></svg><span class="sr-only">Waktu</span></dt><dd data-wc="resepsiTime">09.00 WIB</dd></div>
-          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-pin"/></svg><span class="sr-only">Lokasi</span></dt><dd><b data-wc="venueName">Leviticus 11</b><br><span data-wc="venueAddress">Jl. Penyelesaian Tomang II No.1, Meruya Utara, Kec. Kembangan, Jakarta Barat</span></dd></div>
-        </dl>
-      </article>
-    </div>
-  </section>
-
-
-  <!-- ---------- 06 · COUNTDOWN (hijau, menyatu) ---------- -->
-  <section id="countdown" class="sec sec--green sec--count" aria-labelledby="countLbl">
+  <!-- ---------- 02 · COUNTDOWN ---------- -->
+  <!-- <section id="countdown" class="sec sec--green sec--count" aria-labelledby="countLbl">
     <svg class="count__art" viewBox="0 0 360 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <path class="arch-gold" d="M78 290 L78 150 C78 106 112 74 180 66 C248 74 282 106 282 150 L282 290"/>
       <use href="#s-cluster" x="-16" y="188" width="130" height="130" opacity=".9"/>
@@ -369,43 +238,87 @@
         <svg aria-hidden="true"><use href="#i-cal"/></svg> Simpan ke Kalender
       </a>
     </div>
+  </section> -->
+
+
+  <!-- ---------- 03 · AYAT / DOA ---------- -->
+  <section id="ayat" class="sec sec--ivory sec--pattern" aria-labelledby="ayatLbl">
+    <div class="wrap wrap--narrow center">
+      <h2 class="sr-only" id="ayatLbl">Ayat pilihan</h2>
+      <!-- GANTI: ayat / doa pilihan Anda -->
+      <p class="arabic reveal" lang="ar" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
+      <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
+      <p class="verse reveal">&ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang.&rdquo;</p>
+      <p class="source reveal">QS. Ar-Rum : 21</p>
+    </div>
   </section>
 
 
-  <!-- ---------- 07 · LOKASI ---------- -->
-  <section id="lokasi" class="sec" aria-labelledby="lokasiLbl">
-    <div class="wrap wrap--narrow center">
-      <p class="eyebrow reveal">Lokasi Acara</p>
-      <h2 class="sec__title reveal" id="lokasiLbl" data-wc="venueName">Leviticus 11</h2>
+  <div class="section-border reveal" aria-hidden="true">
+    <img class="section-border__art" src="assets/img/border.png" alt="" loading="lazy">
+  </div>
 
-      <div class="mapcard reveal">
-        <svg class="mapcard__art" viewBox="0 0 320 170" aria-hidden="true">
-          <rect width="320" height="170" fill="#EFE3CB"/>
-          <g stroke="#DCCDA8" stroke-width="9" fill="none" stroke-linecap="square">
-            <path d="M0 104 H320 M96 0 V170 M232 0 V170 M0 40 H96"/>
-          </g>
-          <g stroke="#CBBB94" stroke-width="1.4" fill="none" stroke-dasharray="5 6">
-            <path d="M0 104 H320 M96 0 V170 M232 0 V170 M0 40 H96"/>
-          </g>
-          <g fill="var(--sage)" opacity=".5">
-            <circle cx="46" cy="140" r="16"/><circle cx="278" cy="66" r="13"/><circle cx="150" cy="24" r="11"/>
-          </g>
-          <rect x="112" y="52" width="52" height="40" rx="3" fill="#E3D5B6"/>
-          <rect x="248" y="118" width="46" height="34" rx="3" fill="#E3D5B6"/>
-          <g class="mapcard__pin">
-            <path d="M180 44 c14 0 24 11 24 24 0 17-24 40-24 40s-24-23-24-40c0-13 10-24 24-24Z" fill="var(--green-deep)"/>
-            <circle cx="180" cy="68" r="8" fill="var(--cream)"/>
-          </g>
-        </svg>
-        <div class="mapcard__body">
-          <p class="mapcard__addr" data-wc="venueAddress">Jl. Penyelesaian Tomang II No.1, Meruya Utara, Kec. Kembangan, Jakarta Barat</p>
-          <p class="mapcard__hint"><svg aria-hidden="true"><use href="#i-dir"/></svg> <span>Petunjuk Lokasi</span></p>
-          <a class="btn btn--primary btn--block" id="mapsBtn" href="#" target="_blank" rel="noopener noreferrer">
-            <svg aria-hidden="true"><use href="#i-pin"/></svg> Buka Google Maps
-          </a>
-        </div>
-      </div>
+
+  <!-- ---------- 03 · MEMPELAI ---------- -->
+  <section id="mempelai" class="sec" aria-labelledby="mempelaiLbl">
+    <div class="wrap center mempelai__intro">
+      <p class="eyebrow reveal">Bismillahirrahmanirrahim</p>
+      <h2 class="sec__title reveal" id="mempelaiLbl">Undangan Pernikahan</h2>
+      <p class="lead lead--tight reveal">Tanpa mengurangi rasa hormat dan dengan segala kerendahan hati, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami.</p>
     </div>
+
+    <figure class="couple reveal">
+      <img class="couple__artwork" src="assets/img/couple.png" alt="Ilustrasi Muhammad Azamy dan Saskiah Putri dalam taman bunga" loading="lazy">
+
+      <div class="couple__intro">
+        <p class="couple__intro-label">MEMPERKENALKAN</p>
+        <p class="couple__intro-title">Mempelai</p>
+      </div>
+
+      <div class="couple__copy couple__copy--groom">
+        <h3 class="couple__name" data-wc="groomFull">Muhammad Azamy</h3>
+        <p class="couple__parents">Anak kedua dari<br>Bapak <b data-wc="groomFather">Fahrur Roezi</b> dan Ibu <b data-wc="groomMother">Mirza Syahnaz</b></p>
+      </div>
+
+      <div class="couple__copy couple__copy--bride">
+        <h3 class="couple__name" data-wc="brideFull">Saskiah Putri</h3>
+        <p class="couple__parents">Anak pertama dari<br>Alm. Bapak <b data-wc="brideFather">Sukardi</b> dan Ibu <b data-wc="brideMother">Zakiah</b></p>
+      </div>
+    </figure>
+  </section>
+
+
+  <!-- ---------- 04 · ACARA (hijau) ---------- -->
+  <section id="acara" class="sec sec--green" aria-labelledby="acaraLbl">
+    <div class="wrap events">
+      <article class="ev ev--continuous reveal">
+        <img class="ev__frame" src="assets/img/frame.png" alt="" aria-hidden="true">
+        <p class="ev__kicker">Rangkaian Acara</p>
+        <h2 class="ev__name" id="acaraLbl">Akad <span>&amp;</span> Resepsi</h2>
+        <svg class="ornament ornament--sm" aria-hidden="true"><use href="#s-sprig"/></svg>
+        <dl class="ev__rows">
+          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-cal"/></svg><span class="sr-only">Tanggal</span></dt><dd data-wc="dateLong">Kamis, 12 November 2026</dd></div>
+          <div class="ev__row"><dt><svg aria-hidden="true"><use href="#i-clock"/></svg><span class="sr-only">Waktu</span></dt><dd data-wc="eventTime">16.00–19.00 WIB</dd></div>
+        </dl>
+
+        <div class="ev__venue">
+          <p class="ev__kicker ev__venue-kicker">Lokasi</p>
+          <h3 class="ev__name ev__venue-name" data-wc="venueName">Leviticus</h3>
+          <img class="ev__venue-photo" src="assets/img/leviticus.png" alt="Leviticus" loading="lazy">
+          <div class="mapcard__body">
+            <p class="mapcard__addr" data-wc-lines="venueAddressLines">
+              <span>Jl. Penyelesaian Tomang II No.1</span>
+              <span>Meruya Utara, Kec. Kembangan</span>
+              <span>Jakarta Barat</span>
+            </p>
+            <a class="btn btn--primary" id="mapsBtn" href="#" target="_blank" rel="noopener noreferrer">
+              <svg aria-hidden="true"><use href="#i-pin"/></svg> Maps
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+    <img class="acara-rsvp-divider" src="assets/img/divider.png" alt="" aria-hidden="true">
   </section>
 
 
@@ -447,12 +360,6 @@
           </div>
         </div>
 
-        <div class="field">
-          <label for="rsvpMsg">Ucapan &amp; doa <span class="field__opt">(opsional)</span></label>
-          <textarea id="rsvpMsg" name="ucapan" rows="4" maxlength="500" placeholder="Tulis ucapan atau doa untuk kedua mempelai"></textarea>
-          <p class="field__count"><span id="msgCount">0</span>/500</p>
-        </div>
-
         <!-- honeypot anti-spam: disembunyikan dari manusia, diisi oleh bot -->
         <div class="hp" aria-hidden="true">
           <label for="rsvpWebsite">Website</label>
@@ -473,16 +380,39 @@
       <p class="eyebrow reveal">Ucapan &amp; Doa</p>
       <h2 class="sec__title reveal" id="ucapanLbl">Dari Para Tamu</h2>
       <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
+      <p class="lead lead--tight reveal">Titipkan ucapan dan doa terbaik untuk perjalanan baru kami.</p>
+
+      <form class="form wish-form reveal" id="wishForm" novalidate>
+        <div class="field">
+          <label for="wishName">Nama</label>
+          <input type="text" id="wishName" name="nama" required maxlength="80" autocomplete="name" placeholder="Nama Anda">
+          <p class="field__err" id="wishErrName" hidden>Mohon isi nama Anda.</p>
+        </div>
+        <div class="field">
+          <label for="wishMessage">Ucapan &amp; doa</label>
+          <textarea id="wishMessage" name="ucapan" rows="4" required maxlength="500" placeholder="Tulis ucapan atau doa untuk kedua mempelai"></textarea>
+          <p class="field__err" id="wishErrMessage" hidden>Mohon tulis ucapan atau doa Anda.</p>
+          <p class="field__count"><span id="wishCount">0</span>/500</p>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="wishWebsite">Website</label>
+          <input type="text" id="wishWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn--primary btn--block" id="wishSubmit">Kirim Ucapan</button>
+        <p class="form__status" id="wishStatus" role="status" aria-live="polite"></p>
+      </form>
     </div>
     <div class="wrap wrap--narrow">
       <div class="wishes" id="wishesList" aria-live="polite" aria-busy="true">
         <p class="wishes__state" id="wishesState">Memuat ucapan&hellip;</p>
       </div>
     </div>
+    <img class="ucapan-closing-divider" src="assets/img/divider.png" alt="" aria-hidden="true">
   </section>
 
 
-  <!-- ---------- 10 · HADIAH ---------- -->
+  <!-- WEDDING GIFT PAUSED
+  ---------- 10 · HADIAH ----------
   <section id="hadiah" class="sec" aria-labelledby="hadiahLbl">
     <div class="wrap wrap--narrow center">
       <p class="eyebrow reveal">Wedding Gift</p>
@@ -490,36 +420,19 @@
       <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
       <p class="lead lead--tight reveal">Doa restu Anda adalah hadiah terindah bagi kami. Namun apabila ingin memberikan tanda kasih, dapat melalui:</p>
 
-      <!-- GANTI: rekening di WEDDING_CONFIG.gifts -->
       <div class="gifts" id="giftList"></div>
     </div>
   </section>
+  END WEDDING GIFT PAUSED -->
 
 
   <!-- ---------- 11 · PENUTUP ---------- -->
   <section id="penutup" class="sec sec--closing" aria-labelledby="penutupLbl">
-    <span class="layer layer--pattern" aria-hidden="true"></span>
-
-    <svg class="scene__arch" viewBox="0 0 300 520" preserveAspectRatio="none" aria-hidden="true">
-      <path class="arch-outer" d="M10 518 L10 196 C10 100 72 28 150 14 C228 28 290 100 290 196 L290 518"/>
-      <path class="arch-inner" d="M24 518 L24 203 C24 114 82 47 150 33 C218 47 276 114 276 203 L276 518"/>
-    </svg>
-    <svg class="scene__key" viewBox="0 0 32 32" aria-hidden="true"><path class="arch-key" d="M16 5 l7 11 -7 11 -7-11z"/></svg>
-
-    <svg class="scene__leaf scene__leaf--l" viewBox="0 0 170 130" aria-hidden="true"><use href="#s-cluster" width="170" height="130"/></svg>
-    <svg class="scene__leaf scene__leaf--r" viewBox="0 0 170 130" aria-hidden="true"><use href="#s-cluster" width="170" height="130" transform="translate(170,0) scale(-1,1)"/></svg>
-
-    <div class="bfly-field bfly-field--up" aria-hidden="true">
-      <span class="bfly bfly--u1"><svg viewBox="0 0 40 32" fill="var(--gold)"><use href="#s-bfly"/></svg></span>
-      <span class="bfly bfly--u2"><svg viewBox="0 0 40 32" fill="var(--sage)"><use href="#s-bfly"/></svg></span>
-      <span class="bfly bfly--u3"><svg viewBox="0 0 40 32" fill="var(--green-mid)"><use href="#s-bfly"/></svg></span>
-    </div>
+    <img class="closing__art" src="assets/img/ending.png" alt="" loading="lazy" decoding="async">
 
     <div class="wrap wrap--narrow center closing__in">
       <h2 class="sr-only" id="penutupLbl">Penutup</h2>
       <p class="lead reveal">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
-      <svg class="ornament reveal" aria-hidden="true"><use href="#s-sprig"/></svg>
-      <p class="closing__salam reveal">Wassalamu&rsquo;alaikum warahmatullahi wabarakatuh.</p>
       <p class="closing__from reveal">Kami yang berbahagia</p>
       <p class="names names--closing reveal">
         <span class="names__n" data-wc="groom">Muhammad Azamy</span>
@@ -527,6 +440,10 @@
         <span class="names__n" data-wc="bride">Saskiah Putri</span>
       </p>
     </div>
+
+    <footer class="foot">
+      <p>Dibuat dengan sepenuh hati oleh @subordinatif</p>
+    </footer>
   </section>
 
   <!-- pita berjalan bawah -->
@@ -534,9 +451,6 @@
     <div class="marquee__track" id="marqueeBot"></div>
   </div>
 
-  <footer class="foot">
-    <p>Dibuat dengan sepenuh hati &middot; <span data-wc="dateShort">12.11.2026</span></p>
-  </footer>
 </main>
 
 
@@ -548,6 +462,7 @@
 
 <audio id="bgAudio" loop preload="none"></audio>
 
-<script src="script.js"></script>
+<script src="form-data.js?v=20260902-2"></script>
+<script src="script.js?v=20260902-2"></script>
 </body>
 </html>

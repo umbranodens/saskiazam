@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Event frame mobile probe</title>
+<iframe id="subject" src="/index.html?event-frame-probe=1" style="position:fixed;inset:0;width:375px;height:844px;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+    const eventCard = doc.querySelector('#acara .ev');
+    eventCard.style.transition = 'none';
+    eventCard.classList.add('is-in');
+    const rect = selector => {
+      const box = doc.querySelector(selector).getBoundingClientRect();
+      return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height };
+    };
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      viewportWidth: frame.contentWindow.innerWidth,
+      acara: rect('#acara'),
+      card: rect('#acara .ev'),
+      cardTransform: frame.contentWindow.getComputedStyle(doc.querySelector('#acara .ev')).transform,
+      eventKicker: rect('#acara .ev > .ev__kicker'),
+      eventKickerTransform: frame.contentWindow.getComputedStyle(doc.querySelector('#acara .ev > .ev__kicker')).transform,
+      eventNameTransform: frame.contentWindow.getComputedStyle(doc.querySelector('#acara #acaraLbl')).transform,
+      rows: rect('#acara .ev__rows'),
+      rowsGap: parseFloat(frame.contentWindow.getComputedStyle(doc.querySelector('#acara .ev__rows')).rowGap),
+      rowValueCenters: [...doc.querySelectorAll('#acara .ev__row dd')].map(element => {
+        const box = element.getBoundingClientRect();
+        return (box.left + box.right) / 2;
+      }),
+      rowValueHeights: [...doc.querySelectorAll('#acara .ev__row dd')].map(element => element.getBoundingClientRect().height),
+      venue: (() => {
+        const element = doc.querySelector('#acara .ev__venue');
+        const computed = frame.contentWindow.getComputedStyle(element);
+        return {
+          ...rect('#acara .ev__venue'),
+          borderTopWidth: computed.borderTopWidth,
+          paddingTop: computed.paddingTop,
+        };
+      })(),
+      venueKicker: rect('#acara .ev__venue-kicker'),
+      venuePhoto: rect('#acara .ev__venue-photo'),
+      venueAddress: rect('#acara .mapcard__addr'),
+      venueAddressLines: [...doc.querySelectorAll('#acara .mapcard__addr > span')].map(element => element.innerText.trim()),
+      venueAddressLineCenters: [...doc.querySelectorAll('#acara .mapcard__addr > span')].map(element => {
+        const box = element.getBoundingClientRect();
+        return (box.left + box.right) / 2;
+      }),
+      venueAddressAlign: frame.contentWindow.getComputedStyle(doc.querySelector('#acara .mapcard__addr')).textAlign,
+      venueAddressStyle: (() => {
+        const computed = frame.contentWindow.getComputedStyle(doc.querySelector('#acara .mapcard__addr'));
+        return { fontSize: computed.fontSize, lineHeight: computed.lineHeight };
+      })(),
+      mapsButtonText: doc.querySelector('#mapsBtn').innerText.trim().toUpperCase(),
+      mapsButton: rect('#mapsBtn'),
+    });
+  });
+</script>
+</html>

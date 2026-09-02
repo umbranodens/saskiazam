@@ -33,7 +33,7 @@
   --f-arab:   'Amiri', 'Traditional Arabic', serif;
 
   --pad-x: 1.5rem;
-  --sec-y: clamp(4.5rem, 13vw, 8rem);
+  --sec-y: clamp(4.5rem, 13cqi, 8rem);
   --ease-gate: cubic-bezier(.76, 0, .24, 1);
   --ease-soft: cubic-bezier(.22, 1, .36, 1);
 
@@ -42,7 +42,7 @@
   --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cpath d='M13 3 16 10 23 13 16 16 13 23 10 16 3 13 10 10Z' fill='none' stroke='%231F4D3A' stroke-width='.7'/%3E%3C/svg%3E");
 
   /* lebar gerbang — dipakai bersama oleh cover, hero, dan penutup */
-  --arch-w: min(90vw, 23rem);
+  --arch-w: min(90cqi, 23rem);
 }
 
 /* ---------------------------------------------------------------
@@ -127,7 +127,7 @@ img, svg { display: block; max-width: 100%; }
 
 .sec__title {
   font-family: var(--f-script);
-  font-size: clamp(2.5rem, 9vw, 3.75rem);
+  font-size: clamp(2.5rem, 9cqi, 3.75rem);
   font-weight: 400;
   line-height: 1.05;
   color: var(--green-deep);
@@ -146,9 +146,9 @@ img, svg { display: block; max-width: 100%; }
   align-items: center;
   gap: .1em;
 }
-.names__n { font-size: clamp(2.25rem, 9.6vw, 3.5rem); display: block; }
+.names__n { font-size: clamp(2.25rem, 9.6cqi, 3.5rem); display: block; }
 .names__amp {
-  font-size: clamp(1.9rem, 8vw, 3rem);
+  font-size: clamp(1.9rem, 8cqi, 3rem);
   color: var(--sage);
   line-height: 1;
 }
@@ -187,7 +187,7 @@ img, svg { display: block; max-width: 100%; }
 
 .arabic {
   font-family: var(--f-arab);
-  font-size: clamp(1.375rem, 6.5vw, 1.875rem);
+  font-size: clamp(1.375rem, 6.5cqi, 1.875rem);
   line-height: 2.15;
   color: var(--green-deep);
   margin: 0;
@@ -306,7 +306,7 @@ img, svg { display: block; max-width: 100%; }
 .scene__leaf {
   position: absolute;
   bottom: 0;
-  width: clamp(8.5rem, 38vw, 14rem);
+  width: clamp(8.5rem, 38cqi, 14rem);
   height: auto;
   pointer-events: none;
 }
@@ -336,15 +336,27 @@ img, svg { display: block; max-width: 100%; }
   width: 50.2%;
   overflow: hidden;
   z-index: 2;
-  transition: transform 1.25s var(--ease-gate) .3s,
-              box-shadow  1.25s ease .3s;
+  transition: transform 1.77s var(--ease-gate) .14s;
+  will-change: transform;
+  contain: paint;
+  backface-visibility: hidden;
 }
 .gate--l { left: 0; }
 .gate--r { right: 0; }
 
-.gate__in { position: absolute; top: 0; width: 100vw; height: 100%; }
-.gate--l .gate__in { left: 0; }
-.gate--r .gate__in { right: 0; }
+.gate__art {
+  position: absolute;
+  top: 0;
+  width: 100cqi;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+.gate--l .gate__art { left: 0; }
+.gate--r .gate__art { right: 0; }
 
 .gate__seam {
   position: absolute;
@@ -354,8 +366,9 @@ img, svg { display: block; max-width: 100%; }
   transition: opacity .4s ease;
 }
 
-.cover.is-open .gate--l { transform: translateX(-100.5%); box-shadow: 10px 0 30px rgba(31, 77, 58, .16); }
-.cover.is-open .gate--r { transform: translateX(100.5%);  box-shadow: -10px 0 30px rgba(31, 77, 58, .16); }
+.cover.is-open .gate--l { transform: translate3d(-100.5%, 0, 0); }
+.cover.is-open .gate--r { transform: translate3d(100.5%, 0, 0); }
+.cover.is-open { background: transparent; }
 .cover.is-open .gate__seam { opacity: 0; }
 
 .cover__text {
@@ -369,34 +382,30 @@ img, svg { display: block; max-width: 100%; }
   text-align: center;
   /* dibatasi selebar bagian dalam gerbang supaya teks tidak
      pernah menembus garisnya, berapa pun panjang nama tamu */
-  padding: 2rem calc((100vw - var(--arch-w)) / 2 + 1.75rem);
-  transition: opacity .34s ease, transform .34s ease;
+  padding: 2rem calc((100cqi - var(--arch-w)) / 2 + 1.75rem);
+  isolation: isolate;
+  transition: opacity .28s ease, transform .28s ease;
 }
-.cover.is-open .cover__text { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+.cover__text::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: min(92cqi, 25rem);
+  height: min(58svh, 29rem);
+  background: radial-gradient(ellipse, rgba(255, 251, 240, .94) 0 28%, rgba(255, 251, 240, .72) 52%, transparent 73%);
+  pointer-events: none;
+}
+.cover.is-open .cover__text { opacity: 0; transform: scale(.97) translateY(-8px); pointer-events: none; }
 
-.cover__hon {
-  font-family: var(--f-serif);
-  font-size: 1rem;
-  color: var(--text-muted);
-  margin: .75rem 0 0;
-}
 .cover__guest {
   font-family: var(--f-script);
-  font-size: clamp(2.5rem, 11.5vw, 4.25rem);
+  font-size: clamp(2.5rem, 11.5cqi, 4.25rem);
   font-weight: 400;
   line-height: 1.02;
   color: var(--green-deep);
-  margin: .35rem 0 0;
+  margin: .8rem 0 0;
   max-width: 100%;
   overflow-wrap: break-word;
-}
-.cover__date {
-  font-family: var(--f-sans);
-  font-size: .75rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin: 0;
 }
 .cover__btn { margin-top: 2rem; }
 .cover__hint {
@@ -442,15 +451,13 @@ img, svg { display: block; max-width: 100%; }
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding-block: clamp(3rem, 10vw, 6rem);
+  padding-block: clamp(3rem, 10cqi, 6rem);
   background: var(--cream);
 }
 .layer { position: absolute; inset: 0; pointer-events: none; }
 .layer--pattern { background-image: var(--pattern); opacity: .05; }
 
 .sec--hero .scene__arch { top: 9%; bottom: 13%; }
-.sec--closing .scene__arch { top: 7%; bottom: 9%; }
-.sec--closing .scene__key { top: calc(7% + 1.9rem); }
 
 .hero__in {
   position: relative;
@@ -464,8 +471,9 @@ img, svg { display: block; max-width: 100%; }
 .hero__date {
   font-family: var(--f-sans);
   font-size: .75rem;
+  font-weight: 600;
   letter-spacing: .28em;
-  color: var(--text-muted);
+  color: var(--green-deep);
   margin: 1.5rem 0 0;
 }
 .scroll-cue {
@@ -486,75 +494,96 @@ img, svg { display: block; max-width: 100%; }
    --------------------------------------------------------------- */
 #ayat .wrap { position: relative; z-index: 2; }
 
+/* The complete floral frame bridges the prayer and couple sections.
+   Half of its intrinsic height overlaps each adjoining background. */
+.section-border {
+  position: relative;
+  top: 2rem;
+  z-index: 4;
+  width: 100%;
+  aspect-ratio: 941 / 1672;
+  margin-block: -88.842cqi;
+  pointer-events: none;
+}
+.section-border__art {
+  width: 100%;
+  height: auto;
+}
+
 /* ---------------------------------------------------------------
    10 · MEMPELAI
    --------------------------------------------------------------- */
-.couple {
-  margin-top: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
+#mempelai { padding-bottom: 0; }
+
+.mempelai__intro {
+  margin-bottom: var(--sec-y);
 }
-.person {
+.couple {
   position: relative;
   width: 100%;
-  max-width: 22rem;
-  padding: 3.25rem 1.75rem 2.25rem;
+  aspect-ratio: 941 / 1799;
+  margin: 0;
+  overflow: hidden;
   text-align: center;
 }
-.person__arch {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
+.couple__artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-.person__arch path { stroke: var(--gold); stroke-width: 1; opacity: .75; }
-.person--alt .person__arch path { stroke: var(--sage); opacity: .8; }
-
-.person__in { position: relative; z-index: 2; }
-.person__role {
+.couple__intro {
+  position: absolute;
+  z-index: 2;
+  top: 4.5%;
+  left: 50%;
+  translate: -50% 0;
+  width: 80%;
+  text-align: center;
+  text-shadow: 0 1px 12px rgba(255, 253, 244, .96);
+}
+.couple__intro-label {
   font-family: var(--f-sans);
-  font-size: .625rem;
-  letter-spacing: .32em;
+  font-size: clamp(.55rem, 2.25cqi, .675rem);
+  font-weight: 500;
+  letter-spacing: .42em;
   text-transform: uppercase;
   color: var(--gold);
   margin: 0;
 }
-.person__name {
+.couple__intro-title {
   font-family: var(--f-script);
-  font-size: clamp(1.95rem, 8.4vw, 3rem);
+  font-size: clamp(2.2rem, 9.5cqi, 2.85rem);
+  line-height: 1;
+  color: var(--green-deep);
+  margin: .4rem 0 0;
+}
+.couple__copy {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  translate: -50% 0;
+  width: min(76%, 22rem);
+  text-shadow: 0 1px 12px rgba(255, 253, 244, .95);
+}
+.couple__copy--groom { top: 41%; }
+.couple__copy--bride { top: 82.5%; }
+.couple__name {
+  font-family: var(--f-script);
+  font-size: clamp(2rem, 9cqi, 2.7rem);
   font-weight: 400;
   line-height: 1.05;
   color: var(--green-deep);
-  margin: .25rem 0 0;
+  margin: 0 0 .45rem;
 }
-.person__parents {
+.couple__parents {
   font-family: var(--f-serif);
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: clamp(.78rem, 3.35cqi, 1rem);
+  line-height: 1.65;
   color: var(--text-body);
   margin: 0;
 }
-.person__parents b { font-weight: 600; color: var(--green-deep); }
-
-.couple__amp {
-  font-family: var(--f-script);
-  font-size: 2.75rem;
-  color: var(--sage);
-  line-height: 1;
-}
-
-/* ---------------------------------------------------------------
-   11 · UNDANGAN
-   --------------------------------------------------------------- */
-.sec--invite { background: var(--cream); }
-.invite__border {
-  position: absolute;
-  left: 0; right: 0; bottom: -1rem;
-  width: 100%; height: 12rem;
-  pointer-events: none;
-}
-.invite__in { position: relative; z-index: 2; }
+.couple__parents b { font-weight: 600; color: var(--green-deep); }
 
 /* ---------------------------------------------------------------
    12 · ACARA
@@ -592,22 +621,58 @@ img, svg { display: block; max-width: 100%; }
 }
 .ev__rows { margin: 1.25rem 0 0; display: grid; gap: 1rem; }
 .ev__row {
-  display: grid;
-  grid-template-columns: 1.5rem 1fr;
-  gap: .875rem;
-  align-items: start;
-  text-align: left;
+  position: relative;
+  display: block;
+  text-align: center;
 }
-.ev__row dt { margin: 0; color: var(--gold); padding-top: .15rem; }
+.ev__row dt {
+  position: absolute;
+  top: 0;
+  left: -1.75rem;
+  margin: 0;
+  color: var(--gold);
+  padding-top: .15rem;
+}
 .ev__row dt svg { width: 1.25rem; height: 1.25rem; }
 .ev__row dd {
   margin: 0;
   font-family: var(--f-sans);
   font-size: .9375rem;
+  font-weight: 600;
   line-height: 1.65;
+  text-align: center;
   color: var(--text-body);
 }
 .ev__row dd b { font-weight: 500; color: var(--green-deep); }
+.ev__venue {
+  margin: 1.5rem 0 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.ev__venue-photo {
+  display: block;
+  width: 76%;
+  aspect-ratio: 1537 / 1023;
+  object-fit: cover;
+  margin: 1.5rem 12% 0;
+  border-radius: 8px;
+}
+.acara-rsvp-divider,
+.ucapan-closing-divider {
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  transform: translateY(50%);
+  pointer-events: none;
+}
+#acara { z-index: 2; overflow: visible; }
+#acara .events { margin-top: 0; }
+#rsvp { z-index: 1; }
+#ucapan { z-index: 2; overflow: visible; }
+#penutup { z-index: 1; }
 
 /* ---------------------------------------------------------------
    13 · COUNTDOWN
@@ -633,7 +698,7 @@ img, svg { display: block; max-width: 100%; }
 .count__num {
   font-family: var(--f-serif);
   font-weight: 600;
-  font-size: clamp(1.75rem, 8.4vw, 3rem);
+  font-size: clamp(1.75rem, 8.4cqi, 3rem);
   line-height: 1;
   color: var(--cream);
   font-variant-numeric: tabular-nums;
@@ -680,6 +745,24 @@ img, svg { display: block; max-width: 100%; }
   50%      { transform: translateY(-6px) }
 }
 .mapcard__body { padding: 1.5rem 1.25rem 1.75rem; }
+.ev__venue .mapcard__body { padding: .75rem 0 0; }
+.ev__venue .mapcard__addr {
+  width: 92%;
+  margin-inline: auto;
+  display: grid;
+  gap: .25rem;
+  font-size: .8125rem;
+  line-height: 1.35;
+  text-align: center;
+}
+.ev__venue .mapcard__addr > span { white-space: nowrap; }
+.ev__venue #mapsBtn {
+  width: fit-content;
+  min-height: 2.5rem;
+  margin: 1rem auto 0;
+  padding: .625rem .875rem;
+  font-size: .6875rem;
+}
 .mapcard__addr {
   font-family: var(--f-sans);
   font-size: .9375rem;
@@ -921,17 +1004,9 @@ img, svg { display: block; max-width: 100%; }
    18 · PENUTUP
    --------------------------------------------------------------- */
 .sec--closing {
-  background: var(--cream);
-  padding-block: clamp(5rem, 16vw, 9rem);
+  background: var(--green-deep);
 }
 .closing__in { position: relative; z-index: 3; }
-.closing__salam {
-  font-family: var(--f-sans);
-  font-size: .8125rem;
-  letter-spacing: .12em;
-  color: var(--text-muted);
-  margin: 0;
-}
 .closing__from {
   font-family: var(--f-sans);
   font-size: .6875rem;
@@ -941,9 +1016,15 @@ img, svg { display: block; max-width: 100%; }
   margin: 2rem 0 0;
 }
 .names--closing { margin-top: .5rem; }
-.names--closing .names__n { font-size: clamp(2.1rem, 9vw, 3.5rem); }
+.names--closing .names__n { font-size: clamp(2.1rem, 9cqi, 3.5rem); }
 
 .foot {
+  position: absolute;
+  z-index: 3;
+  inset: auto 0 0;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
   background: var(--green-deep);
   color: var(--gold-soft);
   text-align: center;
@@ -1055,12 +1136,12 @@ img, svg { display: block; max-width: 100%; }
 /* ---------------------------------------------------------------
    21 · DESKTOP
    --------------------------------------------------------------- */
-@media (min-width: 40rem) {
+@container (min-width: 40rem) {
   :root {
     --pad-x: 2.5rem;
-    --arch-w: min(86vw, 30rem);
+    --arch-w: min(86cqi, 30rem);
   }
-  .scene__leaf { width: clamp(10rem, 26vw, 16rem); }
+  .scene__leaf { width: clamp(10rem, 26cqi, 16rem); }
   .choice { gap: 1rem; }
   .events { flex-direction: row; align-items: stretch; }
   .ev { flex: 1; }
@@ -1069,16 +1150,16 @@ img, svg { display: block; max-width: 100%; }
   .count__unit { min-width: 5rem; }
 }
 
-@media (min-width: 60rem) {
+@container (min-width: 60rem) {
   :root {
     --pad-x: 3rem;
     /* Gerbang harus ikut melebar di desktop. Kalau tetap 23rem,
        kolom teksnya cuma 320px dan nama mempelai terpecah dua baris
        di tengah layar 1440px. */
-    --arch-w: min(78vw, 34rem);
+    --arch-w: min(78cqi, 34rem);
   }
 
-  .scene__leaf { width: clamp(12rem, 21vw, 19rem); }
+  .scene__leaf { width: clamp(12rem, 21cqi, 19rem); }
   .scene__bfly--a { right: 22%; top: 17%; }
   .scene__bfly--b { left: 21%;  top: 25%; }
   .names__n { font-size: 4rem; }
@@ -1092,12 +1173,9 @@ img, svg { display: block; max-width: 100%; }
     margin-top: 4rem;
   }
   .person { max-width: 24rem; }
-  .couple__amp { font-size: 3.5rem; }
-
   .lead { font-size: 1.1875rem; }
   .verse { font-size: 1.1875rem; max-width: 42ch; }
   .wishes { max-height: 30rem; }
-  .invite__border { height: 16rem; }
   .count__art { height: 24rem; }
 }
 
@@ -1105,6 +1183,342 @@ img, svg { display: block; max-width: 100%; }
    22 · PREFERS-REDUCED-MOTION
    Halaman tetap utuh — hanya geraknya yang disederhanakan.
    --------------------------------------------------------------- */
+/* Premium recalibration: the palette and type stay, while whitespace and linework take over from decoration. */
+:root {
+  --green-deep: #193F31;
+  --green-mid: #315B47;
+  --sage: #7A8769;
+  --cream: #FFF9EC;
+  --ivory: #F5ECDD;
+  --gold: #B8964C;
+  --gold-soft: #D5C28D;
+  --text-body: #35493B;
+  --text-muted: #657065;
+  --line: #DCD0AE;
+  --sec-y: clamp(5.5rem, 14cqi, 9.5rem);
+}
+
+body { letter-spacing: .005em; }
+.sec--pattern::before, .layer--pattern, .scene__pattern { opacity: .032; }
+
+/* Premium restraint: the continuous marquee is removed from the reading flow. */
+.marquee { display: none; }
+
+.eyebrow { font-size: .625rem; font-weight: 500; letter-spacing: .42em; }
+.lead, .verse { font-weight: 400; }
+.lead { max-width: 37ch; }
+.verse { max-width: 39ch; }
+.source { letter-spacing: .32em; }
+.ornament { width: 8.5rem; opacity: .82; margin-block: 1.5rem; }
+.ornament--sm { width: 5.5rem; opacity: .7; }
+
+.btn {
+  min-height: 3.125rem;
+  border-radius: 2px;
+  padding-inline: 1.6rem;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+.btn:active { transform: none; }
+.btn--primary { box-shadow: none; }
+.btn--primary:hover { background: #285540; }
+.btn--gold:hover, .btn--ghost:hover { background: var(--gold); color: var(--green-deep); }
+
+.scene__bfly, .bfly-field { display: none; }
+.scroll-cue { width: 1.25rem; height: 1.25rem; margin-top: 3.5rem; animation: none; opacity: .55; }
+.hero__in, .closing__in { max-width: calc(var(--arch-w) - 1.5rem); }
+.names { gap: .04em; }
+.names__amp { color: var(--gold); font-size: clamp(1.65rem, 6cqi, 2.4rem); }
+.hero__date { font-size: .6875rem; letter-spacing: .34em; margin-top: 1.75rem; }
+
+.couple { gap: 1.75rem; }
+.person { padding: 3.75rem 2rem 2.75rem; }
+.person__arch path { stroke-width: .8; opacity: .6; }
+.person__role { letter-spacing: .4em; }
+.person__parents { line-height: 1.9; }
+/* Premium paper panels: quiet borders and no floating-card shadow. */
+.ev, .mapcard, .gift {
+  position: relative;
+  background: rgba(255, 249, 236, .72);
+  border: 1px solid rgba(184, 150, 76, .72);
+  border-radius: 0;
+  box-shadow: none;
+}
+.ev::before, .mapcard::before, .gift::before {
+  content: '';
+  position: absolute;
+  inset: .35rem;
+  border: 1px solid rgba(184, 150, 76, .22);
+  pointer-events: none;
+}
+.ev { padding: 2.75rem 2rem 3rem; }
+.ev__kicker, .field > label, .field > legend { letter-spacing: .38em; }
+.ev__rows { gap: 1.15rem; margin-top: 1.65rem; }
+.mapcard { margin-top: 2.75rem; }
+.mapcard__body { padding: 2rem 1.75rem 2.25rem; }
+.gift { padding: 2.25rem 1.75rem; }
+.gift__bank { font-size: .8125rem; letter-spacing: .34em; }
+
+.field input[type="text"], .field input[type="number"], .field textarea,
+.choice__opt span, .stepper__btn, .wish { border-radius: 0; }
+.field input[type="text"], .field input[type="number"], .field textarea,
+.choice__opt span, .stepper__btn { background: rgba(255, 255, 255, .55); }
+.wish { border-left-width: 1px; padding: 1.25rem; }
+.musicbtn { border-radius: 2px; box-shadow: none; }
+
+@container (min-width: 60rem) {
+  .events { gap: 2rem; }
+  .person { max-width: 25rem; }
+}
+
+/* ---------------------------------------------------------------
+   LUSH GARDEN EDITION
+   Arsitektur klasik dari arc.png menjadi panggung utama; ornamen SVG
+   mengulang bentuk dedaunannya tanpa mengubah palet dan tipografi.
+   --------------------------------------------------------------- */
+.sec--hero {
+  isolation: isolate;
+  background: var(--green-deep);
+  padding-block: clamp(3.5rem, 10cqi, 6rem);
+}
+.hero__art {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.main.is-opening .hero__art {
+  will-change: transform, opacity;
+  animation: arcEntrance 1.8s cubic-bezier(.2, .8, .2, 1) .12s both;
+}
+@keyframes arcEntrance {
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(255, 249, 236, .9) 0 18%, rgba(255, 249, 236, .56) 34%, transparent 58%),
+    linear-gradient(90deg, rgba(25, 63, 49, .52), transparent 18% 82%, rgba(25, 63, 49, .52));
+}
+.hero__in {
+  width: min(77cqi, 25rem);
+  max-width: 25rem;
+  padding: 1.5rem .5rem;
+  text-shadow: 0 1px 14px rgba(255, 249, 236, .85);
+}
+.main.is-opening .hero__in {
+  will-change: transform, opacity;
+  animation: heroContentEntrance .72s var(--ease-soft) 1.98s both;
+}
+@keyframes heroContentEntrance {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.sec--hero .eyebrow { color: #876f36; }
+.sec--hero .lead { color: var(--green-deep); }
+.sec--hero .scroll-cue { color: var(--green-deep); }
+
+/* Wreath portrait placeholders are ready for a future illustration image. */
+.person { padding: 3.5rem 1.5rem 3rem; }
+.person__portrait {
+  position: relative;
+  width: clamp(8.5rem, 36cqi, 10.5rem);
+  aspect-ratio: 1;
+  margin: 0 auto 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(184, 150, 76, .8);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255,255,255,.75), rgba(245,236,221,.88));
+  box-shadow: inset 0 0 0 .35rem rgba(255,249,236,.8);
+}
+.person__portrait > img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+.portrait__placeholder {
+  font-family: var(--f-sans);
+  font-size: .625rem;
+  line-height: 1.55;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.portrait__foliage {
+  position: absolute;
+  bottom: -1.3rem;
+  width: 7.75rem;
+  height: auto;
+  pointer-events: none;
+}
+.portrait__foliage--l { left: -3.25rem; transform: rotate(-16deg); }
+.portrait__foliage--r { right: -3.25rem; transform: rotate(16deg); }
+.person__role { margin-top: .25rem; }
+
+.events { justify-content: center; }
+.ev--continuous {
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
+  overflow: hidden;
+  text-align: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: clamp(7rem, 24cqi, 8rem) clamp(3.5rem, 14cqi, 4rem) clamp(6.5rem, 22cqi, 7.5rem);
+}
+.ev--continuous::before { display: none; }
+.ev__frame {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: fill;
+  pointer-events: none;
+}
+.ev__name span { color: var(--gold); padding-inline: .12em; }
+.ev--continuous > .ev__kicker,
+.ev--continuous > #acaraLbl { transform: translateY(2cqi); }
+.ev--continuous .ev__rows { max-width: 25rem; margin-inline: auto; gap: .45rem; }
+.ev__foliage {
+  position: absolute;
+  bottom: -1.6rem;
+  width: 9rem;
+  opacity: .74;
+  pointer-events: none;
+}
+.ev__foliage--l { left: -2.6rem; transform: rotate(-8deg); }
+.ev__foliage--r { right: -2.6rem; transform: rotate(8deg); }
+.ev--continuous > :not(.ev__frame) { position: relative; z-index: 2; }
+
+/* Jumlah tamu intentionally spans the form after the wish field moved out. */
+.stepper {
+  display: grid;
+  grid-template-columns: 3.25rem minmax(0, 1fr) 3.25rem;
+  width: 100%;
+  max-width: none;
+  gap: .5rem;
+}
+.stepper__btn { width: 100%; }
+.wish-form {
+  position: relative;
+  padding: 2rem 1.5rem 1.25rem;
+  border: 1px solid rgba(184, 150, 76, .65);
+  background: rgba(255, 249, 236, .66);
+  text-align: left;
+}
+.wish-form::before {
+  content: '';
+  position: absolute;
+  inset: .35rem;
+  border: 1px solid rgba(184, 150, 76, .2);
+  pointer-events: none;
+}
+.wish-form > * { position: relative; z-index: 1; }
+#wishSubmit[disabled] { opacity: .6; cursor: progress; }
+
+/* Ending artwork is the complete closing scene; copy stays in its open sky. */
+.sec--closing {
+  isolation: isolate;
+  min-height: max(42rem, calc(100cqi * 1.7768));
+  display: flex;
+  align-items: flex-start;
+  padding: clamp(5rem, 23cqi, 8rem) var(--pad-x) clamp(20rem, 82cqi, 31rem);
+}
+.closing__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.closing__in {
+  width: min(78cqi, 25rem);
+  max-width: 25rem;
+  padding: .5rem 0;
+  text-shadow: 0 1px 14px rgba(255, 249, 236, .88);
+}
+.closing__in .lead { font-size: clamp(.94rem, 4cqi, 1.08rem); line-height: 1.75; }
+
+/* Restore the garden's ambient life without letting it cross form content. */
+.scene__bfly, .bfly-field { display: block; }
+.bfly, .scene__bfly { will-change: transform, opacity; }
+.scroll-cue { animation: bob 2.8s ease-in-out infinite; }
+.reveal {
+  transition: opacity .95s ease, transform .95s var(--ease-soft);
+}
+.reveal:not(.is-in) { transform: translateY(18px); }
+.musicbtn { border-radius: 50%; }
+
+@container (min-width: 40rem) {
+  .hero__in { width: min(64cqi, 25rem); }
+  .person__portrait { width: 10.5rem; }
+  .wish-form { padding: 2.5rem 2.25rem 1.5rem; }
+}
+
+@container (min-width: 60rem) {
+  .hero__veil { background: radial-gradient(ellipse at 50% 46%, rgba(255,249,236,.88) 0 18%, rgba(255,249,236,.52) 34%, transparent 60%); }
+  .events { flex-direction: column; }
+  .person { padding-top: 4rem; }
+}
+
+/* ---------------------------------------------------------------
+   MOBILE CANVAS
+   Undangan selalu memakai komposisi ponsel. Pada layar lebar, body
+   hanya menjadi passe-partout netral dan tidak ikut mengubah layout.
+   --------------------------------------------------------------- */
+:root { --canvas-w: 30rem; }
+
+body { background: #ECEAE4; }
+
+.main,
+.cover {
+  container-type: inline-size;
+  --pad-x: 1.5rem;
+  --arch-w: min(90cqi, 23rem);
+}
+
+.main {
+  width: min(100%, var(--canvas-w));
+  margin-inline: auto;
+  overflow-x: clip;
+  background: var(--cream);
+}
+
+.cover {
+  inset: 0 auto 0 50%;
+  width: min(100%, var(--canvas-w));
+  transform: translateX(-50%);
+}
+
+.musicbtn {
+  right: max(1rem, calc((100vw - var(--canvas-w)) / 2 + 1rem));
+}
+
+@media (min-width: 30.0625rem) {
+  .main { box-shadow: 0 0 3rem rgba(25, 63, 49, .11); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
@@ -1121,6 +1535,8 @@ img, svg { display: block; max-width: 100%; }
   .gate { transition: none !important; }
   .cover.is-open .gate--l,
   .cover.is-open .gate--r { transform: none !important; }
+  .main.is-opening .hero__art { animation: none !important; }
+  .main.is-opening .hero__in { animation: none !important; }
 
   /* reveal: fade saja, tanpa geser */
   .reveal { transform: none !important; transition: opacity .3s ease !important; }

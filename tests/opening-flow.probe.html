@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Opening flow render probe</title>
+<iframe id="subject" src="/index.html?to=Armia%20Riyan%20%26%20Istri" style="position:fixed;inset:0;width:100%;height:100%;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', () => {
+    const doc = frame.contentDocument;
+    const cover = doc.querySelector('#cover');
+    const gateImages = [...cover.querySelectorAll('.gate img')];
+    const initial = {
+      label: cover.querySelector('.eyebrow')?.textContent.trim(),
+      guest: cover.querySelector('#guestName')?.textContent.trim(),
+      dateCount: cover.querySelectorAll('.cover__date').length,
+      honorificCount: cover.querySelectorAll('.cover__hon').length,
+      gateImages: gateImages.map(image => ({
+        src: new URL(image.getAttribute('src'), frame.contentWindow.location.href).pathname,
+        loaded: image.complete && image.naturalWidth > 0
+      }))
+    };
+
+    const fallbackFrame = document.createElement('iframe');
+    fallbackFrame.hidden = true;
+    fallbackFrame.src = '/index.html';
+    document.body.append(fallbackFrame);
+
+    fallbackFrame.addEventListener('load', () => {
+      initial.defaultGuest = fallbackFrame.contentDocument.querySelector('#guestName')?.textContent.trim();
+      cover.querySelector('#openBtn').click();
+
+    const deadline = performance.now() + 750;
+    const captureOpening = () => {
+      if (!cover.classList.contains('is-open') && performance.now() < deadline) {
+        frame.contentWindow.setTimeout(captureOpening, 16);
+        return;
+      }
+
+      const opening = {
+        coverOpen: cover.classList.contains('is-open'),
+        coverBackground: getComputedStyle(cover).backgroundColor,
+        gateAnimations: [...cover.querySelectorAll('.gate')].map(panel => panel.getAnimations().length),
+        gateDuration: getComputedStyle(cover.querySelector('.gate')).transitionDuration,
+        arcAnimations: doc.querySelector('.hero__art').getAnimations().length,
+        arcDuration: getComputedStyle(doc.querySelector('.hero__art')).animationDuration,
+        arcDelay: getComputedStyle(doc.querySelector('.hero__art')).animationDelay,
+        heroDuration: getComputedStyle(doc.querySelector('.hero__in')).animationDuration,
+        heroDelay: getComputedStyle(doc.querySelector('.hero__in')).animationDelay,
+        heroOpacity: getComputedStyle(doc.querySelector('.hero__in')).opacity
+      };
+
+      const settledDeadline = performance.now() + 4000;
+      const captureSettled = () => {
+        if (doc.querySelector('#cover') && performance.now() < settledDeadline) {
+          frame.contentWindow.setTimeout(captureSettled, 25);
+          return;
+        }
+
+        document.querySelector('#result').textContent = JSON.stringify({
+          initial,
+          opening,
+          settled: {
+            coverRemoved: !doc.querySelector('#cover'),
+            bodyUnlocked: !doc.body.classList.contains('is-locked'),
+            heroOpacity: getComputedStyle(doc.querySelector('.hero__in')).opacity,
+            dateWeight: getComputedStyle(doc.querySelector('.hero__date')).fontWeight
+          }
+        });
+      };
+
+      captureSettled();
+    };
+
+      captureOpening();
+    });
+  });
+</script>

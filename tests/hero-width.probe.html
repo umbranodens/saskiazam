@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Responsive hero width probe</title>
+<iframe id="subject" src="/index.html?hero-width-probe=1" style="position:fixed;inset:0;width:100%;height:100%;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+    const rect = selector => {
+      const box = doc.querySelector(selector).getBoundingClientRect();
+      return { left: box.left, right: box.right, width: box.width, height: box.height };
+    };
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      viewportWidth: frame.contentWindow.innerWidth,
+      viewportHeight: frame.contentWindow.innerHeight,
+      hero: rect('#hero'),
+      art: rect('#hero .hero__art'),
+      artFit: frame.contentWindow.getComputedStyle(doc.querySelector('#hero .hero__art')).objectFit,
+    });
+  });
+</script>
+</html>

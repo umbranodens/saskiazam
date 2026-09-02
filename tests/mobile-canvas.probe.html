@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Mobile canvas render probe</title>
+<iframe id="subject" src="/index.html?layout-probe=1" style="position:fixed;inset:0;width:100%;height:100%;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    const music = doc.querySelector('.musicbtn');
+    music.hidden = false;
+    doc.querySelectorAll('.reveal').forEach(element => {
+      element.style.transition = 'none';
+      element.classList.add('is-in');
+    });
+
+    const rect = selector => {
+      const element = doc.querySelector(selector);
+      if (!element) return null;
+      const box = element.getBoundingClientRect();
+      return { top: box.top, bottom: box.bottom, left: box.left, right: box.right, width: box.width, height: box.height };
+    };
+    const style = (selector, properties) => {
+      const element = doc.querySelector(selector);
+      if (!element) return null;
+      const computed = frame.contentWindow.getComputedStyle(element);
+      return Object.fromEntries(properties.map(property => [property, computed[property]]));
+    };
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      viewportWidth: frame.contentWindow.innerWidth,
+      main: rect('#main'),
+      cover: rect('#cover'),
+      music: rect('.musicbtn'),
+      countdownIsActive: Boolean(doc.querySelector('#countdown')),
+      ayat: rect('#ayat'),
+      mempelai: rect('#mempelai'),
+      acara: rect('#acara'),
+      separateLocationSection: Boolean(doc.querySelector('#lokasi')),
+      eventCard: rect('#acara .ev'),
+      eventRows: [...doc.querySelectorAll('#acara .ev__row')].map(row => row.innerText.replace(/\s+/g, ' ').trim()),
+      eventRowWeights: [...doc.querySelectorAll('#acara .ev__row dd')].map(row => frame.contentWindow.getComputedStyle(row).fontWeight),
+      eventRowValueHeights: [...doc.querySelectorAll('#acara .ev__row dd')].map(row => row.getBoundingClientRect().height),
+      eventRowsBox: rect('#acara .ev__rows'),
+      eventCardSurface: (() => {
+        const card = doc.querySelector('#acara .ev');
+        const computed = frame.contentWindow.getComputedStyle(card);
+        const before = frame.contentWindow.getComputedStyle(card, '::before');
+        return { backgroundColor: computed.backgroundColor, borderTopWidth: computed.borderTopWidth, boxShadow: computed.boxShadow, beforeDisplay: before.display };
+      })(),
+      eventFrame: rect('#acara .ev__frame'),
+      eventFrameSrc: doc.querySelector('#acara .ev__frame')?.getAttribute('src'),
+      eventKickerStyle: style('#acara .ev__kicker', ['fontFamily', 'fontSize', 'letterSpacing', 'textTransform', 'color']),
+      venueKicker: rect('#acara .ev__venue-kicker'),
+      venueKickerText: doc.querySelector('#acara .ev__venue-kicker')?.innerText.trim(),
+      venueKickerStyle: style('#acara .ev__venue-kicker', ['fontFamily', 'fontSize', 'letterSpacing', 'textTransform', 'color']),
+      eventNameStyle: style('#acara #acaraLbl', ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'color']),
+      venueName: rect('#acara .ev__venue-name'),
+      venueNameText: doc.querySelector('#acara .ev__venue-name')?.innerText.trim(),
+      venueNameStyle: style('#acara .ev__venue-name', ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'color']),
+      venuePhoto: rect('#acara .ev__venue-photo'),
+      venuePhotoSrc: doc.querySelector('#acara .ev__venue-photo')?.getAttribute('src'),
+      venuePhotoAlt: doc.querySelector('#acara .ev__venue-photo')?.getAttribute('alt'),
+      venuePhotoRadius: parseFloat(frame.contentWindow.getComputedStyle(doc.querySelector('#acara .ev__venue-photo')).borderTopLeftRadius),
+      venueAddress: rect('#acara .mapcard__addr'),
+      venueAddressText: doc.querySelector('#acara .mapcard__addr')?.innerText.replace(/\s+/g, ' ').trim(),
+      locationHint: rect('#acara .mapcard__hint'),
+      locationHintText: doc.querySelector('#acara .mapcard__hint')?.innerText.replace(/\s+/g, ' ').trim(),
+      mapsButton: rect('#acara #mapsBtn'),
+      mapsButtonText: doc.querySelector('#acara #mapsBtn')?.innerText.replace(/\s+/g, ' ').trim(),
+      rsvp: rect('#rsvp'),
+      eventDivider: rect('#acara .acara-rsvp-divider'),
+      eventDividerSrc: doc.querySelector('#acara .acara-rsvp-divider')?.getAttribute('src'),
+      invitationIntro: rect('.mempelai__intro'),
+      border: rect('.section-border'),
+      coupleCanvas: rect('.couple'),
+      coupleArtwork: rect('.couple__artwork'),
+      coupleArtworkNaturalRatio: (() => {
+        const image = doc.querySelector('.couple__artwork');
+        return image?.naturalWidth && image?.naturalHeight ? image.naturalHeight / image.naturalWidth : null;
+      })(),
+      groomCopy: rect('.couple__copy--groom'),
+      brideCopy: rect('.couple__copy--bride'),
+      ampVisible: (() => {
+        const amp = doc.querySelector('.couple__amp');
+        return Boolean(amp && getComputedStyle(amp).display !== 'none' && amp.getBoundingClientRect().width > 0);
+      })(),
+      separateInviteSection: Boolean(doc.querySelector('#undangan')),
+      invitationHeading: doc.querySelector('#mempelaiLbl')?.textContent.trim(),
+      introductionLabel: doc.querySelector('.couple__intro-label')?.textContent.trim(),
+      introductionTitle: doc.querySelector('.couple__intro-title')?.textContent.trim(),
+      groomName: doc.querySelector('.couple__copy--groom .couple__name')?.textContent.trim(),
+      brideName: doc.querySelector('.couple__copy--bride .couple__name')?.textContent.trim(),
+      groomParents: doc.querySelector('.couple__copy--groom .couple__parents')?.innerText.replace(/\s+/g, ' ').trim(),
+      brideParents: doc.querySelector('.couple__copy--bride .couple__parents')?.innerText.replace(/\s+/g, ' ').trim()
+    });
+  });
+</script>
+</html>

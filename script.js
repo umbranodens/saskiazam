@@ -20,11 +20,13 @@
 const WEDDING_CONFIG = {
 
   /* --- Mempelai --- */
-  groom:        'Muhammad Azamy',
-  bride:        'Saskiah Putri',
+  groom:        'Azam',
+  bride:        'Saski',
+  groomFull:    'Muhammad Azamy',
+  brideFull:    'Saskiah Putri',
   groomFather:  'Fahrur Roezi',
   groomMother:  'Mirza Syahnaz',
-  brideFather:  'Alm. Sukardi',
+  brideFather:  'Sukardi',
   brideMother:  'Zakiah',
 
   /* --- Tanggal (teks tampilan) --- */
@@ -33,17 +35,21 @@ const WEDDING_CONFIG = {
   dateShort:     '12.11.2026',
 
   /* --- Acara --- */
-  akadTime:    '09.00 WIB',
-  resepsiTime: '09.00 WIB',
+  eventTime: '16.00–19.00 WIB',
 
   /* Waktu mesin — dipakai countdown & file kalender.
      Format ISO 8601 dengan zona waktu. WIB = +07:00 */
-  akadISO:    '2026-11-12T09:00:00+07:00',
-  akadEndISO: '2026-11-12T11:00:00+07:00',
+  akadISO:    '2026-11-12T16:00:00+07:00',
+  akadEndISO: '2026-11-12T19:00:00+07:00',
 
   /* --- Lokasi --- */
-  venueName:    'Leviticus 11',
+  venueName:    'Leviticus',
   venueAddress: 'Jl. Penyelesaian Tomang II No.1, Meruya Utara, Kec. Kembangan, Jakarta Barat',
+  venueAddressLines: [
+    'Jl. Penyelesaian Tomang II No.1',
+    'Meruya Utara, Kec. Kembangan',
+    'Jakarta Barat',
+  ],
   mapsUrl:      'https://maps.app.goo.gl/dH4TYNpHsMKQjqUh9',
 
   /* --- Musik latar ---
@@ -53,7 +59,7 @@ const WEDDING_CONFIG = {
   musicVolume: 0.45,
 
   /* --- Sapaan default bila ?to= tidak ada --- */
-  defaultGuest: 'Bapak/Ibu/Saudara/i',
+  defaultGuest: 'Bapak / Ibu',
 
   /* --- Teks pita berjalan --- */
   marqueeTop: ["Walimatul 'Ursy", '12 . 11 . 2026', 'Jakarta Barat'],
@@ -120,6 +126,18 @@ function bindConfig() {
     }
   });
 
+  $$('[data-wc-lines]').forEach(el => {
+    const lines = WEDDING_CONFIG[el.dataset.wcLines];
+    if (!Array.isArray(lines)) return;
+
+    const nodes = lines.map(line => {
+      const span = document.createElement('span');
+      span.textContent = line;
+      return span;
+    });
+    el.replaceChildren(...nodes);
+  });
+
   const maps = $('#mapsBtn');
   if (maps) maps.href = WEDDING_CONFIG.mapsUrl;
 
@@ -144,14 +162,11 @@ function initGuest() {
 
   el.textContent = name || WEDDING_CONFIG.defaultGuest;
 
-  // sembunyikan baris "Bapak/Ibu/Saudara/i" bila tak ada nama tamu,
-  // supaya sapaannya tidak tampil dua kali
-  const hon = $('.cover__hon');
-  if (hon && !name) hon.hidden = true;
-
   // isi otomatis nama di form RSVP
   const input = $('#rsvpName');
   if (input && name) input.value = name;
+  const wishInput = $('#wishName');
+  if (wishInput && name) wishInput.value = name;
 }
 
 
@@ -190,16 +205,20 @@ function initCover() {
     // di luar sini browser akan memblokirnya sebagai autoplay.
     Audio_.start();
 
-    cover.classList.add('is-open');
     btn.disabled = true;
+    main.classList.add('is-opening');
 
-    document.body.classList.remove('is-locked');
-    main.removeAttribute('inert');
-    window.scrollTo(0, 0);
+    // Cover sudah ter-paint sebelum interaksi pengguna, jadi transisi dapat
+    // dimulai langsung tanpa menunggu frame tambahan yang membuat respons lambat.
+    cover.classList.add('is-open');
 
-    const settle = REDUCED ? 420 : 1750;
+    const settle = REDUCED ? 420 : 2800;
 
     setTimeout(() => {
+      document.body.classList.remove('is-locked');
+      main.removeAttribute('inert');
+      main.classList.replace('is-opening', 'is-opened');
+      window.scrollTo(0, 0);
       if (hero) hero.focus({ preventScroll: true });
       // buang cover dari DOM agar tidak membebani scroll
       cover.remove();
@@ -460,7 +479,7 @@ function initCalendar() {
     `DTEND:${end}`,
     `SUMMARY:${esc('Pernikahan ' + WEDDING_CONFIG.groom + ' & ' + WEDDING_CONFIG.bride)}`,
     `LOCATION:${esc(WEDDING_CONFIG.venueName + ', ' + WEDDING_CONFIG.venueAddress)}`,
-    `DESCRIPTION:${esc('Akad Nikah pukul ' + WEDDING_CONFIG.akadTime)}`,
+    `DESCRIPTION:${esc('Akad Nikah & Resepsi pukul ' + WEDDING_CONFIG.eventTime)}`,
     'END:VEVENT',
     'END:VCALENDAR'
   ].join('\r\n');
@@ -539,21 +558,22 @@ const RSVP = (() => {
   const form   = $('#rsvpForm');
   const status = $('#rsvpStatus');
   const submit = $('#rsvpSubmit');
+  const wishForm = $('#wishForm');
+  const wishStatus = $('#wishStatus');
+  const wishSubmit = $('#wishSubmit');
   const list   = $('#wishesList');
   const state  = $('#wishesState');
 
-  const URL_ = WEDDING_CONFIG.appsScriptUrl;
+  const URL_ = 'https://script.google.com/macros/s/AKfycbyjXCwqj2fQN7E7JV-S-ZwvxmNSJnYnXGuMbYQNEBmSswUoJTNeCVWVCCE4U4PAZSIZ/exec';
   const DEMO = !URL_;
-  const RATE_MS = 60000;
+  const Forms = window.InvitationForms;
 
   /* ---- daftar ucapan ---- */
   function wishHtml(w, isNew) {
-    const badge = w.kehadiran
-      ? `<span class="wish__badge">&middot; ${escapeHtml(w.kehadiran)}</span>` : '';
     const body = w.ucapan
       ? `<p class="wish__body">${escapeHtml(w.ucapan)}</p>` : '';
     return `<article class="wish${isNew ? ' wish--new' : ''}">
-        <p class="wish__head">${escapeHtml(w.nama || 'Tamu')}${badge}</p>
+        <p class="wish__head">${escapeHtml(w.nama || 'Tamu')}</p>
         ${body}
       </article>`;
   }
@@ -598,24 +618,19 @@ const RSVP = (() => {
   }
 
   /* ---- pengiriman ---- */
-  function setStatus(msg, kind) {
-    if (!status) return;
-    status.className = 'form__status' + (kind ? ' form__status--' + kind : '');
-    status.innerHTML = msg;
+  function setStatus(target, msg, kind) {
+    if (!target) return;
+    target.className = 'form__status' + (kind ? ' form__status--' + kind : '');
+    target.innerHTML = msg;
   }
 
-  function validate(data) {
-    const nameField = $('#rsvpName').closest('.field');
-    const err = $('#errName');
-    if (!data.nama) {
-      nameField.classList.add('field--invalid');
-      if (err) err.hidden = false;
-      $('#rsvpName').focus();
-      return false;
-    }
-    nameField.classList.remove('field--invalid');
-    if (err) err.hidden = true;
-    return true;
+  function validateField(input, error) {
+    const valid = Boolean(input && input.value.trim());
+    const field = input && input.closest('.field');
+    if (field) field.classList.toggle('field--invalid', !valid);
+    if (error) error.hidden = valid;
+    if (!valid && input) input.focus();
+    return valid;
   }
 
   async function onSubmit(e) {
@@ -625,28 +640,27 @@ const RSVP = (() => {
     if ($('#rsvpWebsite').value) return;
 
     const last = Number(store('wc_last_rsvp') || 0);
-    if (Date.now() - last < RATE_MS) {
-      setStatus('Mohon tunggu sebentar sebelum mengirim lagi.', 'err');
+    if (Forms.getSubmissionCooldownRemaining(last, Date.now()) > 0) {
+      setStatus(status, 'Mohon tunggu sebentar sebelum mengirim lagi.', 'err');
       return;
     }
 
-    const data = {
-      nama:       $('#rsvpName').value.trim().slice(0, 80),
+    const data = Forms.buildRsvpPayload({
+      nama: $('#rsvpName').value,
       kehadiran:  ($('input[name="kehadiran"]:checked') || {}).value || 'Hadir',
-      jumlah:     clamp(parseInt($('#rsvpCount').value, 10) || 1, 1, 10),
-      ucapan:     $('#rsvpMsg').value.trim().slice(0, 500)
-    };
+      jumlah: $('#rsvpCount').value
+    });
 
-    if (!validate(data)) return;
+    if (!validateField($('#rsvpName'), $('#errName'))) return;
 
     submit.disabled = true;
-    setStatus('Mengirim&hellip;', '');
+    setStatus(status, 'Mengirim&hellip;', '');
 
     if (DEMO) {
       // MODE DEMO — belum tersambung ke Google Sheets
       console.info('[undangan] MODE DEMO, data tidak tersimpan:', data);
       await new Promise(r => setTimeout(r, 500));
-      finishOk(data, true);
+      finishRsvp(true);
       return;
     }
 
@@ -659,12 +673,12 @@ const RSVP = (() => {
         body: JSON.stringify(data)
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      finishOk(data, false);
+      finishRsvp(false);
     } catch (err) {
       console.warn('[undangan] RSVP gagal terkirim:', err);
       submit.disabled = false;
       const wa = WEDDING_CONFIG.whatsapp;
-      setStatus(
+      setStatus(status,
         'Maaf, konfirmasi belum bisa terkirim.' +
         (wa ? ` Anda dapat mengabari kami langsung lewat <a href="https://wa.me/${escapeHtml(wa)}" target="_blank" rel="noopener">WhatsApp</a>.` : ''),
         'err'
@@ -672,30 +686,80 @@ const RSVP = (() => {
     }
   }
 
-  function finishOk(data, demo) {
+  function finishRsvp(demo) {
     store('wc_last_rsvp', String(Date.now()));
-    setStatus(
+    setStatus(status,
       'Terima kasih, konfirmasi Anda telah kami terima.' +
       (demo ? '<br><small>(mode demo — belum tersimpan ke Google Sheets)</small>' : ''),
       'ok'
     );
-    if (data.ucapan) prependWish(data);
     form.reset();
     $('#rsvpCount').value = 1;
-    updateCount();
+    syncGuestCount();
     submit.disabled = false;
+  }
+
+  async function onWishSubmit(e) {
+    e.preventDefault();
+    if ($('#wishWebsite').value) return;
+
+    const last = Number(store('wc_last_wish') || 0);
+    if (Forms.getSubmissionCooldownRemaining(last, Date.now()) > 0) {
+      setStatus(wishStatus, 'Mohon tunggu sebentar sebelum mengirim ucapan lagi.', 'err');
+      return;
+    }
+
+    const nameOk = validateField($('#wishName'), $('#wishErrName'));
+    const messageOk = validateField($('#wishMessage'), $('#wishErrMessage'));
+    if (!nameOk || !messageOk) return;
+
+    const data = Forms.buildWishPayload({
+      nama: $('#wishName').value,
+      ucapan: $('#wishMessage').value
+    });
+
+    wishSubmit.disabled = true;
+    setStatus(wishStatus, 'Mengirim&hellip;', '');
+
+    try {
+      if (DEMO) {
+        console.info('[undangan] MODE DEMO, ucapan tidak tersimpan:', data);
+        await new Promise(r => setTimeout(r, 500));
+      } else {
+        const res = await fetch(URL_, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+      }
+
+      store('wc_last_wish', String(Date.now()));
+      prependWish(data);
+      setStatus(wishStatus,
+        'Terima kasih, ucapan Anda telah ditampilkan.' +
+        (DEMO ? '<br><small>(mode demo — belum tersimpan ke Google Sheets)</small>' : ''),
+        'ok'
+      );
+      wishForm.reset();
+      updateWishCount();
+    } catch (err) {
+      console.warn('[undangan] ucapan gagal terkirim:', err);
+      setStatus(wishStatus, 'Ucapan belum bisa terkirim. Silakan coba kembali.', 'err');
+    } finally {
+      wishSubmit.disabled = false;
+    }
+  }
+
+  function updateWishCount() {
+    const count = $('#wishCount');
+    if (count) count.textContent = String($('#wishMessage').value.length);
   }
 
   /* ---- stepper jumlah tamu ---- */
   function step(delta) {
     const input = $('#rsvpCount');
     input.value = clamp((parseInt(input.value, 10) || 1) + delta, 1, 10);
-  }
-
-  /* ---- penghitung karakter ---- */
-  function updateCount() {
-    const c = $('#msgCount');
-    if (c) c.textContent = String($('#rsvpMsg').value.length);
   }
 
   /* ---- sembunyikan jumlah tamu bila berhalangan ---- */
@@ -706,14 +770,22 @@ const RSVP = (() => {
   }
 
   function init() {
-    if (!form) return;
-    form.addEventListener('submit', onSubmit);
-    $('#cntMinus').addEventListener('click', () => step(-1));
-    $('#cntPlus').addEventListener('click', () => step(1));
-    $('#rsvpMsg').addEventListener('input', updateCount);
-    $$('input[name="kehadiran"]').forEach(r => r.addEventListener('change', syncGuestCount));
-    syncGuestCount();
-    updateCount();
+    if (!Forms) {
+      console.error('[undangan] modul data form tidak termuat.');
+      return;
+    }
+    if (form) {
+      form.addEventListener('submit', onSubmit);
+      $('#cntMinus').addEventListener('click', () => step(-1));
+      $('#cntPlus').addEventListener('click', () => step(1));
+      $$('input[name="kehadiran"]').forEach(r => r.addEventListener('change', syncGuestCount));
+      syncGuestCount();
+    }
+    if (wishForm) {
+      wishForm.addEventListener('submit', onWishSubmit);
+      $('#wishMessage').addEventListener('input', updateWishCount);
+      updateWishCount();
+    }
     loadWishes();
   }
 
