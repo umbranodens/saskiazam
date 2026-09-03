@@ -50,7 +50,7 @@ const WEDDING_CONFIG = {
     'Meruya Utara, Kec. Kembangan',
     'Jakarta Barat',
   ],
-  mapsUrl:      'https://maps.app.goo.gl/dH4TYNpHsMKQjqUh9',
+  mapsUrl:      'https://maps.app.goo.gl/oyUcr5anVwHRn4xj6',
 
   /* --- Musik latar ---
      Taruh berkas MP3 di assets/audio/backsound.mp3
@@ -67,8 +67,8 @@ const WEDDING_CONFIG = {
 
   /* --- Rekening hadiah (DUMMY — ganti dengan milik Anda) --- */
   gifts: [
-    { bank: 'BCA',     number: '1234567', holder: 'SASKIAH PUTRI' },
-    { bank: 'MANDIRI', number: '7654321', holder: 'MUHAMMAD AZAMY' }
+    { bank: 'BCA', number: '6042015837', holder: 'SASKIAH PUTRI' },
+    { bank: 'BSI', number: '1120033601', holder: 'MUHAMMAD AZAMY' }
   ],
 
   /* --- Nomor WhatsApp cadangan bila RSVP gagal terkirim ---
