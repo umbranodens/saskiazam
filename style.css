@@ -586,6 +586,116 @@ img, svg { display: block; max-width: 100%; }
 .couple__parents b { font-weight: 600; color: var(--green-deep); }
 
 /* ---------------------------------------------------------------
+   11 · LOVE STORY
+   --------------------------------------------------------------- */
+.story { max-width: 52rem; }
+.story__intro { margin-bottom: clamp(2.75rem, 8cqi, 4.5rem); }
+
+.story__timeline {
+  position: relative;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.story__timeline::before {
+  content: '';
+  position: absolute;
+  top: .65rem;
+  bottom: .4rem;
+  left: 1rem;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold) 5%, var(--gold) 95%, transparent);
+  opacity: .72;
+}
+.story__moment {
+  position: relative;
+  min-height: 3rem;
+  padding: 0 0 clamp(2.75rem, 9cqi, 4.25rem) 3.25rem;
+}
+.story__moment:last-child { padding-bottom: 0; }
+.story__bud {
+  position: absolute;
+  top: .42rem;
+  left: .6rem;
+  width: .82rem;
+  height: .82rem;
+  border: 1px solid var(--gold);
+  border-radius: 65% 35% 65% 35%;
+  background: var(--ivory);
+  rotate: 45deg;
+  box-shadow: 0 0 0 .35rem rgba(245, 236, 221, .86);
+}
+.story__bud::after {
+  content: '';
+  position: absolute;
+  top: -.34rem;
+  left: .46rem;
+  width: .5rem;
+  height: .26rem;
+  border: solid var(--sage);
+  border-width: 1px 1px 0 0;
+  border-radius: 100% 0;
+}
+.story__chapter time {
+  display: block;
+  font-family: var(--f-sans);
+  font-size: .625rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.story__chapter h3 {
+  margin: .35rem 0 .8rem;
+  font-family: var(--f-serif);
+  font-size: clamp(1.6rem, 6cqi, 2.1rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--green-deep);
+}
+.story__chapter p {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-size: clamp(.98rem, 3.8cqi, 1.08rem);
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--text-body);
+}
+.story__chapter p + p { margin-top: .9rem; }
+.story__quote {
+  position: relative;
+  max-width: 30rem;
+  margin: clamp(3.5rem, 10cqi, 5.5rem) auto 0;
+  padding: 1.75rem 1.5rem 0;
+  border-top: 1px solid rgba(184, 150, 76, .52);
+  text-align: center;
+}
+.story__quote::before {
+  content: '“';
+  position: absolute;
+  top: -.98rem;
+  left: 50%;
+  padding-inline: .75rem;
+  translate: -50% 0;
+  background: var(--ivory);
+  color: var(--gold);
+  font-family: var(--f-serif);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.story__quote p {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-size: clamp(1.15rem, 4.5cqi, 1.45rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--green-deep);
+}
+
+/* ---------------------------------------------------------------
    12 · ACARA
    --------------------------------------------------------------- */
 .events {
@@ -1097,15 +1207,21 @@ img, svg { display: block; max-width: 100%; }
    hero, mempelai, RSVP, dan penutup. Setiap jalur dijaga di tepi agar
    kupu-kupu tidak melintasi nama, frame acara, atau kontrol formulir. */
 #mempelai > :not(.bfly-field),
+#love-story > :not(.bfly-field),
 #rsvp > :not(.bfly-field) { position: relative; z-index: 3; }
 
 .bfly-field--mempelai,
+.bfly-field--story,
 .bfly-field--rsvp { z-index: 1; }
 .bfly-field--closing { z-index: 1; }
 
 .bfly--m1 { left: -0.3rem; top: 13%; width: 34px; height: 34px; animation: drift1 17s ease-in-out infinite -3s; }
 .bfly--m2 { right: .1rem; top: 47%; width: 27px; height: 27px; animation: drift2 20s ease-in-out infinite -9s; }
 .bfly--m3 { left: 7%; bottom: 8%; width: 21px; height: 21px; animation: drift3 15s ease-in-out infinite -12s; }
+
+.bfly--s1 { right: -.15rem; top: 12%; width: 32px; height: 32px; animation: drift2 19s ease-in-out infinite -5s; }
+.bfly--s2 { left: -.3rem; top: 51%; width: 25px; height: 25px; animation: drift1 21s ease-in-out infinite -11s; }
+.bfly--s3 { right: 7%; bottom: 5%; width: 20px; height: 20px; animation: drift3 17s ease-in-out infinite -13s; }
 
 .bfly--r1 { right: -.2rem; top: 9%; width: 31px; height: 31px; animation: drift2 18s ease-in-out infinite -4s; }
 .bfly--r2 { left: -.25rem; top: 52%; width: 24px; height: 24px; animation: drift1 21s ease-in-out infinite -11s; }
@@ -1170,6 +1286,7 @@ img, svg { display: block; max-width: 100%; }
   .gifts { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
   .count { gap: 1rem; }
   .count__unit { min-width: 5rem; }
+
 }
 
 @container (min-width: 60rem) {

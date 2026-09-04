@@ -74,8 +74,10 @@ try {
   assert.equal(metrics.dividerSrc, 'assets/img/divider.png', 'wishes should render the supplied divider before closing');
   const sectionBoundary = metrics.wishes.bottom;
   const dividerCenter = (metrics.divider.top + metrics.divider.bottom) / 2;
-  assert.ok(Math.abs(sectionBoundary - metrics.section.top) < 1, 'wishes and closing should meet without a layout gap');
-  assert.ok(Math.abs(dividerCenter - sectionBoundary) < 1, 'divider should overlap the wishes-closing boundary equally');
+  assert.ok(metrics.gifts, 'the active wedding gift section should render between wishes and closing');
+  assert.ok(Math.abs(sectionBoundary - metrics.gifts.top) < 1, 'wishes and gifts should meet without a layout gap');
+  assert.ok(Math.abs(metrics.gifts.bottom - metrics.section.top) < 1, 'gifts and closing should meet without a layout gap');
+  assert.ok(Math.abs(dividerCenter - sectionBoundary) < 1, 'divider should overlap the wishes-gifts boundary equally');
   assert.ok(Math.abs(metrics.divider.left - metrics.wishes.left) < 1 && Math.abs(metrics.divider.right - metrics.wishes.right) < 1, 'divider should span the full invitation canvas');
   assert.ok(metrics.dividerZIndex > metrics.artZIndex, 'divider should remain visible above ending artwork');
   assert.equal(metrics.oldOrnamentCount, 0, 'legacy closing ornaments should be removed');

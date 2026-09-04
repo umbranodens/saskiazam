@@ -12,6 +12,7 @@
     await doc.fonts.ready;
     const closing = doc.querySelector('#penutup');
     const wishes = doc.querySelector('#ucapan');
+    const gifts = doc.querySelector('#hadiah');
     const art = closing.querySelector('.closing__art');
     const content = closing.querySelector('.closing__in');
     const footer = doc.querySelector('.foot');
@@ -35,6 +36,7 @@
       viewportWidth: frame.contentWindow.innerWidth,
       section: rect(closing),
       wishes: rect(wishes),
+      gifts: rect(gifts),
       art: rect(art),
       artSrc: art?.getAttribute('src') || null,
       artLoaded: Boolean(art?.complete && art?.naturalWidth && art?.naturalHeight),

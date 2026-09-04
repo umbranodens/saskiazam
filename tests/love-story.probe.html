@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Love story section probe</title>
+<iframe id="subject" src="/index.html?love-story-probe=1" style="position:fixed;inset:0;width:390px;height:100vh;border:0"></iframe>
+<pre id="result">waiting</pre>
+<script>
+  const frame = document.querySelector('#subject');
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument;
+    await doc.fonts.ready;
+
+    const story = doc.querySelector('#love-story');
+    const mempelai = doc.querySelector('#mempelai');
+    const acara = doc.querySelector('#acara');
+    const moments = story ? [...story.querySelectorAll('.story__moment')] : [];
+    const butterflies = story ? [...story.querySelectorAll('.bfly img')] : [];
+
+    document.querySelector('#result').textContent = JSON.stringify({
+      exists: Boolean(story),
+      betweenMempelaiAndAcara: Boolean(story && mempelai && acara &&
+        (mempelai.compareDocumentPosition(story) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+        (story.compareDocumentPosition(acara) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      heading: story?.querySelector('h2')?.textContent.trim() || '',
+      eyebrow: story?.querySelector('.eyebrow')?.textContent.trim() || '',
+      dates: moments.map(moment => moment.querySelector('time')?.textContent.trim()),
+      titles: moments.map(moment => moment.querySelector('h3')?.textContent.trim()),
+      quote: story?.querySelector('.story__quote')?.textContent.trim() || '',
+      butterflies: butterflies.map(img => ({
+        src: img.getAttribute('src'),
+        loaded: Boolean(img.complete && img.naturalWidth && img.naturalHeight),
+        animation: frame.contentWindow.getComputedStyle(img.closest('.bfly')).animationName,
+      })),
+      timelineWidth: story ? frame.contentWindow.getComputedStyle(story.querySelector('.story__timeline')).width : '',
+    });
+
+    doc.body.classList.remove('is-locked');
+    doc.querySelector('#cover')?.setAttribute('hidden', '');
+    story?.scrollIntoView();
+  });
+</script>
+</html>

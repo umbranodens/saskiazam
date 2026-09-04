@@ -92,17 +92,22 @@ try {
       && Math.abs(metrics.coupleCanvas.right - metrics.main.right) < 1,
     'the couple canvas should reach both edges of the mobile invitation without side padding',
   );
-  assert.ok(metrics.acara, 'the green event section should render after the couple section');
+  assert.ok(metrics.loveStory, 'the love story should render after the couple section');
   assert.ok(
-    Math.abs(metrics.coupleCanvas.bottom - metrics.acara.top) < 1,
-    'the couple artwork should connect directly to the green event section without a cream gap',
+    Math.abs(metrics.coupleCanvas.bottom - metrics.loveStory.top) < 1,
+    'the couple artwork should connect directly to the love story without a layout gap',
+  );
+  assert.ok(metrics.acara, 'the green event section should render after the love story');
+  assert.ok(
+    Math.abs(metrics.loveStory.bottom - metrics.acara.top) < 1,
+    'the love story should connect directly to the green event section without a layout gap',
   );
   assert.equal(metrics.separateLocationSection, false, 'location should be consolidated into the event section');
   assert.deepEqual(
     metrics.eventRows,
     [
       'Tanggal Kamis, 12 November 2026',
-      'Waktu 16.00–19.00 WIB',
+      'Waktu 16.00–21.00 WIB',
     ],
     'date and time should remain the only icon-led event details',
   );
